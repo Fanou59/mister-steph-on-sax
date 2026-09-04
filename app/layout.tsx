@@ -1,6 +1,12 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
+import { Footer } from '@/components/footer'
 import './globals.css'
+
+// Revalidate daily so the footer's `new Date().getFullYear()` (baked into
+// the static HTML at build time otherwise) can't drift more than a day
+// stale across a year rollover without needing a redeploy.
+export const revalidate = 86400
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -32,7 +38,10 @@ export default function RootLayout({
       lang="fr"
       className={`${playfairDisplay.variable} ${inter.variable} scroll-smooth`}
     >
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

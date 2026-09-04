@@ -83,6 +83,123 @@ export const contactSection = {
 }
 
 // ---------------------------------------------------------------------------
+// Legal / GDPR — shared contact address (spec-legal-footer-rgpd.md).
+// Single source of truth: used by the footer's implicit contact path, the
+// contact form's technical-error fallback, and both legal pages, so the
+// address is never re-typed (and never drifts) between them.
+// ---------------------------------------------------------------------------
+
+export const legalContactEmail = 'contact@misterstephonsax.fr'
+
+// Stephane hasn't supplied his legal identity (name/status, address, SIRET)
+// yet — this fact is shared by the mentions légales "éditeur" section and
+// the privacy policy's "responsable du traitement" section, which describe
+// the same entity. Never guess a value here (spec § Never) — each missing
+// fact stays independently visible as its own marker until Stephane answers.
+export const editeurNomStatutPlaceholder =
+  '[À COMPLÉTER : nom et statut de l’éditeur]'
+export const editeurAdressePlaceholder =
+  '[À COMPLÉTER : adresse postale de l’éditeur]'
+export const editeurSiretPlaceholder = '[À COMPLÉTER : numéro SIRET]'
+export const editeurTelephonePlaceholder =
+  '[À COMPLÉTER : numéro de téléphone]'
+export const directeurPublicationPlaceholder =
+  '[À COMPLÉTER : nom du directeur de la publication]'
+
+export const footerContent: {
+  brand: string
+  rightsReserved: string
+  links: { href: string; label: string }[]
+} = {
+  brand: 'Mister Steph On Sax',
+  rightsReserved: 'Tous droits réservés.',
+  links: [
+    { href: '/mentions-legales', label: 'Mentions légales' },
+    {
+      href: '/politique-de-confidentialite',
+      label: 'Politique de confidentialité',
+    },
+  ],
+}
+
+export const legalNoticeContent = {
+  heading: 'Mentions légales',
+  editeur: {
+    heading: 'Éditeur du site',
+    nomStatut: editeurNomStatutPlaceholder,
+    adresse: editeurAdressePlaceholder,
+    siret: editeurSiretPlaceholder,
+    telephone: editeurTelephonePlaceholder,
+    contact: legalContactEmail,
+  },
+  directeurPublication: {
+    heading: 'Directeur de la publication',
+    nom: directeurPublicationPlaceholder,
+  },
+  hebergeur: {
+    heading: 'Hébergeur',
+    nom: 'Vercel Inc.',
+    adresse: '340 S Lemon Ave #4133, Walnut, CA 91789, USA',
+    lienLegalHref: 'https://vercel.com/legal',
+    lienLegalLabel: 'vercel.com/legal',
+    note: 'pour la version actuelle et faisant foi des informations légales de l’hébergeur.',
+  },
+  contact: {
+    heading: 'Contact',
+    body: 'Pour toute question relative aux présentes mentions légales, écrivez à',
+    email: legalContactEmail,
+  },
+}
+
+export const privacyPolicyContent = {
+  heading: 'Politique de confidentialité',
+  intro:
+    'Cette page décrit comment vos données personnelles sont traitées lorsque vous utilisez le formulaire de contact de ce site.',
+  responsableTraitement: {
+    heading: 'Responsable du traitement',
+    body: editeurNomStatutPlaceholder,
+    contact: legalContactEmail,
+  },
+  donneesCollectees: {
+    heading: 'Données collectées',
+    body: 'Via le formulaire de contact : nom, prénom, adresse email, date de l’événement souhaité, type de prestation et lieu de l’événement.',
+  },
+  finalite: {
+    heading: 'Finalité',
+    body: 'Ces données sont utilisées exclusivement pour traiter votre demande de devis ou de réservation et vous répondre.',
+  },
+  baseLegale: {
+    heading: 'Base légale',
+    body: 'Le traitement repose sur les démarches précontractuelles engagées à votre initiative (article 6.1.b du RGPD) : vous nous contactez directement pour obtenir un devis, il ne s’agit pas de prospection commerciale.',
+  },
+  sousTraitant: {
+    heading: 'Sous-traitant',
+    body: 'L’envoi des emails de notification et de confirmation liés à votre demande est assuré par Resend, qui agit en tant que sous-traitant. Resend est une société américaine : ce transfert de données hors de l’Union européenne est encadré par les clauses contractuelles types (SCC) prévues dans son accord de traitement des données (resend.com/legal/dpa).',
+  },
+  dureeConservation: {
+    heading: 'Durée de conservation',
+    body: 'Vos données sont conservées 3 ans à compter de notre dernier contact (durée recommandée par la CNIL pour les prospects commerciaux non convertis), puis supprimées. Si votre demande donne lieu à une prestation réservée, les données nécessaires à sa réalisation et à nos obligations comptables sont conservées le temps prévu par ces obligations légales, distinct de cette durée.',
+  },
+  droitsRgpd: {
+    heading: 'Vos droits',
+    body: 'Conformément au RGPD, vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité sur vos données. Pour l’exercer, écrivez à',
+    email: legalContactEmail,
+    reclamation:
+      'Si vous estimez que vos droits ne sont pas respectés, vous pouvez également introduire une réclamation auprès de la CNIL (cnil.fr).',
+  },
+  cookies: {
+    heading: 'Cookies et traceurs',
+    body: 'Ce site n’utilise aucun cookie ni outil d’analyse ou de suivi. Aucune bannière de consentement n’est donc affichée.',
+  },
+}
+
+export const gdprNotice: { text: string; linkLabel: string; href: string } = {
+  text: 'Les informations transmises via ce formulaire sont utilisées uniquement pour traiter votre demande. En savoir plus dans notre',
+  linkLabel: 'politique de confidentialité',
+  href: '/politique-de-confidentialite',
+}
+
+// ---------------------------------------------------------------------------
 // Contact form — state copy (EXPERIENCE.md § State Patterns)
 // ---------------------------------------------------------------------------
 
@@ -92,9 +209,8 @@ export const contactFormMessages = {
     heading: 'Demande envoyée',
     body: 'Votre demande a bien été envoyée. Réponse sous 48h.',
   },
-  // Draft placeholder — replace with Stephane's real fallback contact once confirmed.
   technicalError:
-    'Une erreur est survenue — réessayez, ou contactez-nous directement à contact@mistersteponsax.fr.',
+    `Une erreur est survenue — réessayez, ou contactez-nous directement à ${legalContactEmail}.`,
   validation: {
     nom: 'Merci d’indiquer votre nom.',
     prenom: 'Merci d’indiquer votre prénom.',

@@ -2,6 +2,7 @@
 
 import type { FocusEvent, RefObject } from 'react'
 import { useActionState, useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { submitContactForm, type ContactFormState } from '@/lib/actions'
 import {
   contactFormSchema,
@@ -12,6 +13,7 @@ import {
   contactFormLabels,
   contactFormMessages,
   contactSection,
+  gdprNotice,
   prestationTypes,
 } from '@/lib/content'
 
@@ -272,6 +274,21 @@ export function ContactForm() {
               {state.message}
             </p>
           )}
+
+          {/* GDPR notice (spec-legal-footer-rgpd.md) — plain text/link, no new
+              Client state: passive disclosure of purpose + link to the
+              privacy policy, not an opt-in checkbox (pre-contractual
+              contact, not marketing). */}
+          <p className="font-sans text-body-sm text-ink-soft">
+            {gdprNotice.text}{' '}
+            <Link
+              href={gdprNotice.href}
+              className="text-ink underline underline-offset-2"
+            >
+              {gdprNotice.linkLabel}
+            </Link>
+            .
+          </p>
 
           <button
             type="submit"

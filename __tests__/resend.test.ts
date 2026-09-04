@@ -52,6 +52,7 @@ describe('sendContactEmails — Non-Production env (I/O & Edge-Case Matrix row 5
 describe('sendContactEmails — Production env (AD-4 send contract)', () => {
   const original = {
     VERCEL_ENV: process.env.VERCEL_ENV,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
     CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
   }
@@ -82,6 +83,7 @@ describe('sendContactEmails — Production env (AD-4 send contract)', () => {
   })
 
   it('returns { sent: false } and never calls Resend when RESEND_FROM_EMAIL/CONTACT_TO_EMAIL are missing', async () => {
+    process.env.RESEND_API_KEY = 're_test_key'
     delete process.env.RESEND_FROM_EMAIL
     delete process.env.CONTACT_TO_EMAIL
 
@@ -92,7 +94,20 @@ describe('sendContactEmails — Production env (AD-4 send contract)', () => {
     expect(sendMock).not.toHaveBeenCalled()
   })
 
+  it('returns { sent: false } and never constructs the Resend client when RESEND_API_KEY is missing — regression test: the client used to be built at module scope and crashed on import whenever this key was unset, in any environment, even before the isProduction gate ran', async () => {
+    delete process.env.RESEND_API_KEY
+    process.env.RESEND_FROM_EMAIL = 'contact@example.com'
+    process.env.CONTACT_TO_EMAIL = 'stephane@example.com'
+
+    const { sendContactEmails } = await import('@/lib/resend')
+    const result = await sendContactEmails(submission)
+
+    expect(result.sent).toBe(false)
+    expect(sendMock).not.toHaveBeenCalled()
+  })
+
   it('returns { sent: false } and skips the confirmation send when the notification send fails', async () => {
+    process.env.RESEND_API_KEY = 're_test_key'
     process.env.RESEND_FROM_EMAIL = 'contact@example.com'
     process.env.CONTACT_TO_EMAIL = 'stephane@example.com'
     sendMock.mockResolvedValueOnce({
@@ -108,6 +123,7 @@ describe('sendContactEmails — Production env (AD-4 send contract)', () => {
   })
 
   it('still returns { sent: true } when the notification succeeds but the confirmation send throws', async () => {
+    process.env.RESEND_API_KEY = 're_test_key'
     process.env.RESEND_FROM_EMAIL = 'contact@example.com'
     process.env.CONTACT_TO_EMAIL = 'stephane@example.com'
     sendMock

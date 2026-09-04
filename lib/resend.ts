@@ -4,9 +4,6 @@ import ConfirmationEmail from '@/emails/confirmation-email'
 import { confirmationEmailContent, notificationEmailContent } from '@/lib/content'
 import type { ContactSubmission } from '@/lib/validation'
 
-// AD-4 — single Resend client, shared by both sends below.
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 // AD-4 — no real email leaves this app outside Production, so Preview
 // deployments stay testable without spamming Stephane's real inbox.
 const isProduction = process.env.VERCEL_ENV === 'production'
@@ -32,18 +29,27 @@ export async function sendContactEmails(
     return { sent: true }
   }
 
+  const apiKey = process.env.RESEND_API_KEY
   const fromAddress = process.env.RESEND_FROM_EMAIL
   const toAddress = process.env.CONTACT_TO_EMAIL
 
-  if (!fromAddress || !toAddress) {
+  if (!apiKey || !fromAddress || !toAddress) {
     console.error(
-      '[contact] Missing RESEND_FROM_EMAIL or CONTACT_TO_EMAIL environment variable.',
+      '[contact] Missing RESEND_API_KEY, RESEND_FROM_EMAIL or CONTACT_TO_EMAIL environment variable.',
     )
     return {
       sent: false,
       message: 'Configuration email manquante côté serveur.',
     }
   }
+
+  // AD-4 — the client is constructed here, lazily, only once the env is
+  // confirmed Production and every required variable is present. The
+  // Resend SDK's constructor validates its argument and throws immediately
+  // when it's missing — building this at module scope would crash every
+  // import of this file (including in local dev and tests) whenever
+  // RESEND_API_KEY isn't set, regardless of the isProduction gate above.
+  const resend = new Resend(apiKey)
 
   // 1. Notification to Stephane — blocking. Its failure fails the submission.
   // Wrapped in try/catch (mirroring the confirmation call below) because a

@@ -53,6 +53,12 @@ export function ContactForm() {
     ...blurErrors,
   }
 
+  // React resets uncontrolled <form> fields after every action call — echo
+  // back what the visitor already typed (from the Server Action's `values`)
+  // so a validation or technical error never forces a full retype.
+  const submittedValues =
+    state?.ok === false ? state.values : undefined
+
   const nomRef = useRef<HTMLInputElement>(null)
   const prenomRef = useRef<HTMLInputElement>(null)
   const emailRef = useRef<HTMLInputElement>(null)
@@ -66,6 +72,15 @@ export function ContactForm() {
   // when it appears. Blur-time validation (below) never touches focus.
   useEffect(() => {
     if (!state) return
+
+    // React only applies a <select>'s `defaultValue` prop at mount — a
+    // later change to the prop alone doesn't move the current selection.
+    // Sync it imperatively via the ref instead (the <input> fields don't
+    // need this: React does keep those in sync with a changing
+    // `defaultValue` after the form-action reset).
+    if (state.ok === false && typePrestationRef.current) {
+      typePrestationRef.current.value = state.values.typePrestation
+    }
 
     if (state.ok === false && state.kind === 'validation') {
       if (state.fieldErrors.nom) {
@@ -149,6 +164,7 @@ export function ContactForm() {
               type="text"
               inputRef={nomRef}
               error={fieldErrors.nom}
+              defaultValue={submittedValues?.nom}
               onBlur={(event) => validateField('nom', event.target.value)}
             />
             <Field
@@ -158,6 +174,7 @@ export function ContactForm() {
               type="text"
               inputRef={prenomRef}
               error={fieldErrors.prenom}
+              defaultValue={submittedValues?.prenom}
               onBlur={(event) => validateField('prenom', event.target.value)}
             />
           </div>
@@ -169,6 +186,7 @@ export function ContactForm() {
             type="email"
             inputRef={emailRef}
             error={fieldErrors.email}
+            defaultValue={submittedValues?.email}
             onBlur={(event) => validateField('email', event.target.value)}
           />
 
@@ -179,6 +197,7 @@ export function ContactForm() {
             type="date"
             inputRef={dateRef}
             error={fieldErrors.date}
+            defaultValue={submittedValues?.date}
             onBlur={(event) => validateField('date', event.target.value)}
           />
 
@@ -193,7 +212,7 @@ export function ContactForm() {
               id="typePrestation"
               name="typePrestation"
               ref={typePrestationRef}
-              defaultValue=""
+              defaultValue={submittedValues?.typePrestation ?? ''}
               aria-invalid={fieldErrors.typePrestation ? true : undefined}
               aria-describedby={
                 fieldErrors.typePrestation ? 'typePrestation-error' : undefined
@@ -227,6 +246,7 @@ export function ContactForm() {
             type="text"
             inputRef={lieuRef}
             error={fieldErrors.lieu}
+            defaultValue={submittedValues?.lieu}
             onBlur={(event) => validateField('lieu', event.target.value)}
           />
 
@@ -281,10 +301,20 @@ interface FieldProps {
   type: 'text' | 'email' | 'date'
   inputRef: RefObject<HTMLInputElement | null>
   error?: string
+  defaultValue?: string
   onBlur: (event: FocusEvent<HTMLInputElement>) => void
 }
 
-function Field({ id, name, label, type, inputRef, error, onBlur }: FieldProps) {
+function Field({
+  id,
+  name,
+  label,
+  type,
+  inputRef,
+  error,
+  defaultValue,
+  onBlur,
+}: FieldProps) {
   const errorId = `${id}-error`
 
   return (
@@ -297,6 +327,7 @@ function Field({ id, name, label, type, inputRef, error, onBlur }: FieldProps) {
         name={name}
         type={type}
         ref={inputRef}
+        defaultValue={defaultValue}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         onBlur={onBlur}

@@ -72,6 +72,18 @@ describe('submitContactForm — I/O & Edge-Case Matrix', () => {
     expect(result.kind).toBe('validation')
     if (result.kind !== 'validation') throw new Error('expected kind: validation')
     expect(result.fieldErrors).toHaveProperty('date')
+    // Regression: React resets uncontrolled form fields after every action
+    // call, so the submitted values must be echoed back for the Client
+    // Component to redisplay them — otherwise a validation error wipes
+    // everything the visitor already typed.
+    expect(result.values).toEqual({
+      nom: 'Dupont',
+      prenom: 'Jean',
+      email: 'jean.dupont@example.com',
+      date: '',
+      typePrestation: 'vin-honneur',
+      lieu: 'Lyon',
+    })
     expect(sendContactEmailsMock).not.toHaveBeenCalled()
   })
 
@@ -88,6 +100,14 @@ describe('submitContactForm — I/O & Edge-Case Matrix', () => {
       ok: false,
       kind: 'technical',
       message: contactFormMessages.technicalError,
+      values: {
+        nom: 'Dupont',
+        prenom: 'Jean',
+        email: 'jean.dupont@example.com',
+        date: '2026-10-10',
+        typePrestation: 'vin-honneur',
+        lieu: 'Lyon',
+      },
     })
   })
 

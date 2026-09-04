@@ -8,12 +8,29 @@ import {
   contactFormSchema,
 } from '@/lib/validation'
 
+// The non-honeypot fields, echoed back on any error so the Client Component
+// can redisplay what the visitor already typed. React resets uncontrolled
+// `<form>` fields after every action call (mirroring native form-reset
+// behavior) — without echoing these back as `defaultValue`, a visitor who
+// hits a validation or technical error would see every field wiped and
+// have to retype the whole form, which EXPERIENCE.md explicitly rules out
+// for the technical-error case and is just as true for validation errors.
+export type SubmittedValues = Record<
+  'nom' | 'prenom' | 'email' | 'date' | 'typePrestation' | 'lieu',
+  string
+>
+
 // AD-3 — the exact discriminated return shape shared by the Client
 // Component (useActionState) and this Server Action.
 export type ContactFormState =
   | { ok: true }
-  | { ok: false; kind: 'validation'; fieldErrors: Record<string, string> }
-  | { ok: false; kind: 'technical'; message: string }
+  | {
+      ok: false
+      kind: 'validation'
+      fieldErrors: Record<string, string>
+      values: SubmittedValues
+    }
+  | { ok: false; kind: 'technical'; message: string; values: SubmittedValues }
 
 function getStringField(formData: FormData, name: string): string {
   const value = formData.get(name)
@@ -38,6 +55,15 @@ export async function submitContactForm(
     [HONEYPOT_FIELD_NAME]: getStringField(formData, HONEYPOT_FIELD_NAME),
   }
 
+  const values: SubmittedValues = {
+    nom: raw.nom,
+    prenom: raw.prenom,
+    email: raw.email,
+    date: raw.date,
+    typePrestation: raw.typePrestation,
+    lieu: raw.lieu,
+  }
+
   // AD-8 — honeypot checked first, ahead of validation. A human never fills
   // this hidden field; a bot that does gets a silent, indistinguishable
   // success with no email sent.
@@ -58,7 +84,7 @@ export async function submitContactForm(
         fieldErrors[field] = firstMessage
       }
     }
-    return { ok: false, kind: 'validation', fieldErrors }
+    return { ok: false, kind: 'validation', fieldErrors, values }
   }
 
   // Honeypot field stripped — it never leaves this function, real or fake.
@@ -80,6 +106,7 @@ export async function submitContactForm(
       ok: false,
       kind: 'technical',
       message: contactFormMessages.technicalError,
+      values,
     }
   }
 

@@ -8,6 +8,9 @@
 # production
 /build
 
+# vercel
+.vercel
+
 # env
 .env
 .env*.local

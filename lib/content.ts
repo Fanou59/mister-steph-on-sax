@@ -99,7 +99,7 @@ export const contactFormMessages = {
     nom: 'Merci d’indiquer votre nom.',
     prenom: 'Merci d’indiquer votre prénom.',
     email: 'Merci d’indiquer une adresse email valide.',
-    date: "Merci d'indiquer une date d'événement.",
+    date: 'Merci d’indiquer une date d’événement valide.',
     typePrestation: 'Merci de sélectionner un type de prestation.',
     lieu: 'Merci d’indiquer un lieu.',
   },

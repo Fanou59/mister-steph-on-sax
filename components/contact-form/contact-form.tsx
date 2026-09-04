@@ -21,6 +21,15 @@ import {
 
 const initialState: ContactFormState | undefined = undefined
 
+// Shared by every text/date/select control below so the border/radius/focus
+// treatment (AD-6 tokens) never drifts between the two places it's used.
+const FORM_CONTROL_CLASS =
+  'min-h-11 w-full rounded-sm border bg-surface-card px-3 py-2.5 font-sans text-body text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy'
+
+function formControlClass(hasError: boolean): string {
+  return `${FORM_CONTROL_CLASS} ${hasError ? 'border-error' : 'border-border-strong'}`
+}
+
 export function ContactForm() {
   const [state, formAction, isPending] = useActionState(
     submitContactForm,
@@ -192,11 +201,7 @@ export function ContactForm() {
               onBlur={(event) =>
                 validateField('typePrestation', event.target.value)
               }
-              className={`min-h-11 w-full rounded-sm border bg-surface-card px-3 py-2.5 font-sans text-body text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
-                fieldErrors.typePrestation
-                  ? 'border-error'
-                  : 'border-border-strong'
-              }`}
+              className={formControlClass(Boolean(fieldErrors.typePrestation))}
             >
               <option value="">— Sélectionnez —</option>
               {prestationTypes.map((option) => (
@@ -295,9 +300,7 @@ function Field({ id, name, label, type, inputRef, error, onBlur }: FieldProps) {
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         onBlur={onBlur}
-        className={`min-h-11 w-full rounded-sm border bg-surface-card px-3 py-2.5 font-sans text-body text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
-          error ? 'border-error' : 'border-border-strong'
-        }`}
+        className={formControlClass(Boolean(error))}
       />
       {error && (
         <p id={errorId} className="mt-1 font-sans text-body-sm text-error">

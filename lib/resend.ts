@@ -46,23 +46,35 @@ export async function sendContactEmails(
   }
 
   // 1. Notification to Stephane — blocking. Its failure fails the submission.
-  const notification = await resend.emails.send({
-    from: fromAddress,
-    to: toAddress,
-    subject: notificationEmailContent.subject(values.nom, values.prenom),
-    react: NotificationEmail({
-      nom: values.nom,
-      prenom: values.prenom,
-      email: values.email,
-      date: values.date,
-      typePrestation: values.typePrestation,
-      lieu: values.lieu,
-    }),
-  })
+  // Wrapped in try/catch (mirroring the confirmation call below) because a
+  // network failure or bad API key can reject/throw rather than resolve
+  // with `.error` — without this, that failure mode would propagate
+  // unhandled instead of producing the spec's `kind: 'technical'` contract.
+  try {
+    const notification = await resend.emails.send({
+      from: fromAddress,
+      to: toAddress,
+      subject: notificationEmailContent.subject(values.nom, values.prenom),
+      react: NotificationEmail({
+        nom: values.nom,
+        prenom: values.prenom,
+        email: values.email,
+        date: values.date,
+        typePrestation: values.typePrestation,
+        lieu: values.lieu,
+      }),
+    })
 
-  if (notification.error) {
-    console.error('[contact] Notification email failed:', notification.error)
-    return { sent: false, message: notification.error.message }
+    if (notification.error) {
+      console.error('[contact] Notification email failed:', notification.error)
+      return { sent: false, message: notification.error.message }
+    }
+  } catch (error) {
+    console.error('[contact] Notification email threw:', error)
+    return {
+      sent: false,
+      message: error instanceof Error ? error.message : String(error),
+    }
   }
 
   // 2. Confirmation to the visitor — best-effort. A failure here is logged

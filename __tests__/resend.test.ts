@@ -48,3 +48,76 @@ describe('sendContactEmails — Non-Production env (I/O & Edge-Case Matrix row 5
     expect(sendMock).not.toHaveBeenCalled()
   })
 })
+
+describe('sendContactEmails — Production env (AD-4 send contract)', () => {
+  const original = {
+    VERCEL_ENV: process.env.VERCEL_ENV,
+    RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
+    CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
+  }
+
+  const submission = {
+    nom: 'Dupont',
+    prenom: 'Jean',
+    email: 'jean.dupont@example.com',
+    date: '2026-10-10',
+    typePrestation: 'vin-honneur',
+    lieu: 'Lyon',
+  }
+
+  beforeEach(() => {
+    vi.resetModules()
+    sendMock.mockReset()
+    process.env.VERCEL_ENV = 'production'
+  })
+
+  afterEach(() => {
+    for (const [key, value] of Object.entries(original)) {
+      if (value === undefined) {
+        delete process.env[key]
+      } else {
+        process.env[key] = value
+      }
+    }
+  })
+
+  it('returns { sent: false } and never calls Resend when RESEND_FROM_EMAIL/CONTACT_TO_EMAIL are missing', async () => {
+    delete process.env.RESEND_FROM_EMAIL
+    delete process.env.CONTACT_TO_EMAIL
+
+    const { sendContactEmails } = await import('@/lib/resend')
+    const result = await sendContactEmails(submission)
+
+    expect(result.sent).toBe(false)
+    expect(sendMock).not.toHaveBeenCalled()
+  })
+
+  it('returns { sent: false } and skips the confirmation send when the notification send fails', async () => {
+    process.env.RESEND_FROM_EMAIL = 'contact@example.com'
+    process.env.CONTACT_TO_EMAIL = 'stephane@example.com'
+    sendMock.mockResolvedValueOnce({
+      data: null,
+      error: { message: 'invalid_api_key' },
+    })
+
+    const { sendContactEmails } = await import('@/lib/resend')
+    const result = await sendContactEmails(submission)
+
+    expect(result).toEqual({ sent: false, message: 'invalid_api_key' })
+    expect(sendMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('still returns { sent: true } when the notification succeeds but the confirmation send throws', async () => {
+    process.env.RESEND_FROM_EMAIL = 'contact@example.com'
+    process.env.CONTACT_TO_EMAIL = 'stephane@example.com'
+    sendMock
+      .mockResolvedValueOnce({ data: { id: 'notif-1' }, error: null })
+      .mockRejectedValueOnce(new Error('network blip'))
+
+    const { sendContactEmails } = await import('@/lib/resend')
+    const result = await sendContactEmails(submission)
+
+    expect(result).toEqual({ sent: true })
+    expect(sendMock).toHaveBeenCalledTimes(2)
+  })
+})

@@ -16,18 +16,33 @@ const prestationValues = prestationTypes.map((p) => p.value) as [
 ]
 
 export const contactFormSchema = z.object({
-  nom: z.string().trim().min(1, contactFormMessages.validation.nom),
-  prenom: z.string().trim().min(1, contactFormMessages.validation.prenom),
+  nom: z
+    .string()
+    .trim()
+    .min(1, contactFormMessages.validation.nom)
+    .max(200, contactFormMessages.validation.nom),
+  prenom: z
+    .string()
+    .trim()
+    .min(1, contactFormMessages.validation.prenom)
+    .max(200, contactFormMessages.validation.prenom),
   email: z
     .string()
     .trim()
     .min(1, contactFormMessages.validation.email)
     .email(contactFormMessages.validation.email),
-  date: z.string().trim().min(1, contactFormMessages.validation.date),
+  date: z
+    .string()
+    .trim()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, contactFormMessages.validation.date),
   typePrestation: z.enum(prestationValues, {
     error: contactFormMessages.validation.typePrestation,
   }),
-  lieu: z.string().trim().min(1, contactFormMessages.validation.lieu),
+  lieu: z
+    .string()
+    .trim()
+    .min(1, contactFormMessages.validation.lieu)
+    .max(200, contactFormMessages.validation.lieu),
   [HONEYPOT_FIELD_NAME]: z.string().optional().default(''),
 })
 

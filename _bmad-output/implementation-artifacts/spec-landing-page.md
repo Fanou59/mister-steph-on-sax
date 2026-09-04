@@ -2,7 +2,7 @@
 title: 'Mister Steph On Sax — landing page'
 type: 'feature'
 created: '2026-09-04'
-status: 'in-progress'
+status: 'in-review'
 route: 'dispatch'
 review_loop_iteration: 0
 baseline_commit: 'NO_VCS'
@@ -73,6 +73,33 @@ context:
 - **`contactFormMessages.technicalError`** contains a placeholder fallback email (`contact@mistersteponsax.fr`) since no real fallback contact (email/phone) was supplied in any of the three context docs. Draft-quality, centralized in `lib/content.ts` for easy editing later — same tolerance the spec explicitly grants the Formules copy.
 - Contact form field-error state avoids mirroring server `fieldErrors` into local state via a `useEffect` (flagged by `eslint-plugin-react-hooks`'s newer `set-state-in-effect` rule as a cascading-render risk); instead `fieldErrors` is derived at render time as `{...submitFieldErrors, ...blurErrors}`, and the effect is only used for the two legitimate side effects it needs — moving focus to the first invalid field after a submit, and focusing the success region — both are plain `ref.focus()` calls, no `setState`.
 - **Added a minimal Vitest unit-test setup**: `vitest` as a devDependency, a `"test": "vitest run"` script in `package.json`, and `vitest.config.mts` (resolves the `@/*` alias to match `tsconfig.json`, since Vitest doesn't read tsconfig `paths` on its own). Tests live in `__tests__/actions.test.ts` and `__tests__/resend.test.ts` and exercise the real exported functions (`submitContactForm`, `sendContactEmails`) rather than reimplementing their logic — `__tests__/actions.test.ts` module-mocks `@/lib/resend` to isolate `submitContactForm`'s branching, while `__tests__/resend.test.ts` mocks the `resend` npm package itself so `lib/resend.ts`'s own Production gate runs for real. All 5 rows of the I/O & Edge-Case Matrix above now have a passing test (`npm run test` → 2 files, 5/5 tests passing).
+
+## Review Triage Log
+
+Three parallel review layers ran against the implementation diff (Blind Hunter, Edge Case Hunter, Verification Gap). Findings verified and routed below.
+
+- **false** — Blind Hunter claimed the `emails/*.tsx` import from `'react-email'` (`Body, Container, Head, ...`) would fail at build since those components supposedly live in `@react-email/components`. *Refuted:* `node -e "require('react-email')"` confirms `react-email@6.9.3` exports `Body`/`Container`/`Head`/`Heading`/`Hr`/`Html`/`Preview`/`Text` directly (unified package since React Email 6.0, April 2026); `npm run build` already succeeded with zero type errors before and after this review.
+- **false** — Blind Hunter claimed calling `NotificationEmail({...})`/`ConfirmationEmail({...})` as plain functions instead of JSX is a latent break. *Refuted:* this exact pattern (`react: ConfirmationEmail({...})`) is Resend's own documented Next.js Server Action example (confirmed via Context7 `/resend/resend-examples` during the architecture phase); neither template uses hooks, so the JSX inside each function body still produces a valid React element tree.
+- **high** — Blind Hunter (#1) + Edge Case Hunter (`lib/resend.ts:49-65`, `:8`), same root cause: the notification `resend.emails.send()` call had no `try/catch`, unlike the confirmation call 20 lines below it — a thrown/rejected send (network failure, missing/invalid `RESEND_API_KEY`) propagated unhandled instead of the spec's `{ ok:false, kind:'technical' }` I/O-matrix row 3 contract, so a real visitor could see a raw crash instead of the intended `role="alert"` message. *Fixed:* wrapped the notification send in `try/catch` mirroring the confirmation call's existing pattern.
+- **medium** — Blind Hunter (#2) + Verification Gap Reviewer, same root cause: `lib/resend.ts`'s entire Production branch (env-var guard, blocking notification send, best-effort confirmation send) had zero test coverage — `__tests__/resend.test.ts` only exercised the non-Production early return, `__tests__/actions.test.ts` mocked `sendContactEmails` away entirely. *Fixed:* added 3 tests to `__tests__/resend.test.ts` (missing env vars, notification failure, confirmation failure/throw) — 8/8 tests pass.
+- **low** — Edge Case Hunter: `date` field (`lib/validation.ts:26`) accepted any non-empty string, no format check. *Fixed:* added an ISO-date regex (`/^\d{4}-\d{2}-\d{2}$/`).
+- **low** — Edge Case Hunter: `nom`/`prenom`/`lieu` accepted unbounded length. *Fixed:* added `.max(200, ...)` to each.
+- **low** — Blind Hunter: `lib/content.ts` validation messages mixed curly `’` and straight `'` apostrophes. *Fixed:* made the `date` message consistent (curly, matching the majority).
+- **low** — Blind Hunter: `.gitignore` missing `.vercel/` despite the project targeting Vercel. *Fixed:* added it.
+- **low** — Blind Hunter: the form-control Tailwind class string was duplicated verbatim between `Field` and the inline `<select>` in `contact-form.tsx`. *Fixed:* extracted to one shared `formControlClass()` helper.
+- **defer** — Edge Case Hunter: no rejection of already-past event dates. Real if unwanted, but no planning doc (DESIGN.md/EXPERIENCE.md/ARCHITECTURE-SPINE.md/this spec) specifies date-range validation — an unaddressed dimension, not a defect against stated intent.
+- **defer** — Edge Case Hunter: no timeout wraps `resend.emails.send()`; a hang would leave `isPending` stuck client-side. Real but Vercel's platform function-timeout is a backstop, and a correct client-side timeout adds non-trivial complexity beyond a direct correction.
+- **defer** — Edge Case Hunter: native Enter-key form submission bypasses the submit button's `isPending`/`aria-disabled` guard (only the button's own `onClick` short-circuits), allowing a second concurrent Server Action call. Real, but the smallest robust fix needs care to avoid reopening the focus-loss anti-pattern the UX accessibility review (see `DESIGN.md`/`EXPERIENCE.md`) specifically fixed by choosing `aria-disabled` over native `disabled` — not a direct correction, and no AD addresses concurrent-submission guarding.
+- **defer** — Blind Hunter: no Open Graph/Twitter meta, favicon, or `viewport` export in `app/layout.tsx`. Real gap for a page meant to be shared, but never specified in any planning doc.
+- **defer** — Blind Hunter: no `robots.ts`/`sitemap.ts`/`not-found.tsx`/`error.tsx`. Standard scaffolding, never specified.
+- **defer** — Blind Hunter: no CI workflow running `lint`/`test` on push. Never specified.
+- **defer** — Blind Hunter: no `README.md`. Never specified.
+- **defer** — Blind Hunter: `contactFormMessages.technicalError` ships a placeholder fallback contact (`contact@mistersteponsax.fr`) that isn't Stephane's real address. Not a code defect — already centralized in `lib/content.ts` for a one-line edit once Stephane supplies the real fallback contact; flagged directly to him.
+- **reject** — Edge Case Hunter: `prestationTypes` edited down to zero entries would break `z.enum` at runtime. Self-inflicted content-file edit, would be immediately obvious (empty dropdown) in any manual check; negligible real-world exposure for a defensive check that isn't a direct correction.
+- **reject** — Blind Hunter: no `aria-required` on form fields (`noValidate` strips native `required` semantics). `EXPERIENCE.md`'s Accessibility Floor specifies `aria-invalid`/`aria-describedby` as the accessible error signal (already implemented) and `noValidate` is deliberate — letting the specified custom blur/submit validation own the UX instead of native browser popups. Not a defect against the actual spec.
+- **reject** — Blind Hunter: no dedicated `lib/validation.ts` unit tests beyond what the I/O matrix requires. The spec's I/O & Edge-Case Matrix defines exactly 5 rows, now all covered; further per-field validation unit tests ask for more thoroughness than was contracted.
+
+All `patch` entries applied directly (re-verified: `npm run build` ✓, `npm run lint` ✓, `npm run test` → 8/8 ✓). All `defer` entries logged to `deferred-work.md`.
 
 ## Verification
 

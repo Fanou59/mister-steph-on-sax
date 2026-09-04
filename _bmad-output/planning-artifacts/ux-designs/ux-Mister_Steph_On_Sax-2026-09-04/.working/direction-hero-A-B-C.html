@@ -1,0 +1,333 @@
+<title>MSOS Hero Concepts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --page-bg:#FBFAF7;
+    --page-surface:#FFFFFF;
+    --page-ink:#1C2541;
+    --page-ink-soft:#5B6478;
+    --page-border:#E4E1D8;
+    --page-tag-bg:#F1EEE4;
+    --gold:#C59B27;
+    --sage:#84A59D;
+    --navy:#1C2541;
+    --cream:#F8F6F0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --page-bg:#14151B;
+      --page-surface:#1B1D25;
+      --page-ink:#F1EFE8;
+      --page-ink-soft:#A7ACC0;
+      --page-border:#2D2F3A;
+      --page-tag-bg:#22242E;
+    }
+  }
+  :root[data-theme="dark"]{
+    --page-bg:#14151B;
+    --page-surface:#1B1D25;
+    --page-ink:#F1EFE8;
+    --page-ink-soft:#A7ACC0;
+    --page-border:#2D2F3A;
+    --page-tag-bg:#22242E;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--page-bg);
+    color:var(--page-ink);
+    font-family:'Inter',system-ui,sans-serif;
+    padding:0 0 6rem;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem);}
+
+  header.intro{padding:clamp(2.5rem,6vw,4rem) 0 2.5rem;border-bottom:1px solid var(--page-border);}
+  .eyebrow{
+    font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 .9rem;
+  }
+  header.intro h1{
+    font-family:'Playfair Display',Georgia,serif;
+    font-weight:600;
+    font-size:clamp(1.7rem,3.4vw,2.5rem);
+    line-height:1.15;
+    margin:0 0 1rem;
+    text-wrap:balance;
+    max-width:26ch;
+  }
+  header.intro p{
+    font-size:.98rem;line-height:1.65;color:var(--page-ink-soft);
+    max-width:62ch;margin:0 0 .6rem;
+  }
+  header.intro .locked{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem;
+  }
+  .chip{
+    font-size:.78rem;font-weight:500;padding:.35rem .7rem;border-radius:100px;
+    background:var(--page-tag-bg);color:var(--page-ink-soft);border:1px solid var(--page-border);
+  }
+  .chip b{color:var(--page-ink);font-weight:600;}
+
+  section.direction{padding:3.2rem 0;border-bottom:1px solid var(--page-border);}
+  section.direction:last-of-type{border-bottom:none;}
+
+  .dir-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;margin-bottom:1.4rem;flex-wrap:wrap;}
+  .dir-title{
+    font-family:'Playfair Display',Georgia,serif;font-weight:600;
+    font-size:clamp(1.2rem,2.2vw,1.5rem);margin:0 0 .35rem;
+  }
+  .dir-title .letter{color:var(--gold);}
+  .dir-rationale{font-size:.92rem;color:var(--page-ink-soft);max-width:52ch;line-height:1.6;margin:0;}
+  .dir-need{font-size:.78rem;font-weight:600;color:var(--sage);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
+
+  .frames{display:flex;gap:1.5rem;align-items:flex-start;}
+  .desktop-frame{flex:1;min-width:0;}
+  .mobile-frame{width:132px;flex-shrink:0;}
+
+  .chrome{
+    border:1px solid var(--page-border);border-radius:10px;overflow:hidden;
+    background:var(--page-surface);box-shadow:0 1px 2px rgba(0,0,0,.04);
+  }
+  .chrome-bar{
+    display:flex;gap:5px;align-items:center;padding:.5rem .7rem;
+    border-bottom:1px solid var(--page-border);
+  }
+  .chrome-bar span{width:7px;height:7px;border-radius:50%;background:var(--page-border);}
+  .mobile-frame .chrome{border-radius:16px;}
+  .mobile-frame .chrome-bar{justify-content:center;padding:.4rem;}
+  .mobile-frame .chrome-bar span{width:40px;height:4px;border-radius:2px;}
+
+  /* ---- hero mock content, shared ---- */
+  .hero{
+    background:var(--navy);position:relative;overflow:hidden;
+    aspect-ratio:16/9;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:clamp(1.1rem,3vw,2.4rem);
+  }
+  .mobile-frame .hero{aspect-ratio:9/17;padding:1rem .85rem;}
+  .hero-eyebrow{
+    font-family:'Inter';font-size:.62rem;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--sage);margin:0 0 .5rem;position:relative;z-index:2;
+  }
+  .mobile-frame .hero-eyebrow{font-size:.5rem;}
+  .hero h2{
+    font-family:'Playfair Display',Georgia,serif;font-weight:600;color:var(--cream);
+    font-size:clamp(1.1rem,2.6vw,2.15rem);line-height:1.08;margin:0 0 .4rem;
+    text-wrap:balance;position:relative;z-index:2;
+  }
+  .mobile-frame .hero h2{font-size:1.05rem;}
+  .hero .sub{
+    font-family:'Inter';color:var(--cream);opacity:.82;font-weight:400;
+    font-size:clamp(.68rem,1.1vw,.9rem);margin:0 0 1rem;max-width:34ch;
+    line-height:1.5;position:relative;z-index:2;
+  }
+  .mobile-frame .hero .sub{font-size:.62rem;margin-bottom:.7rem;}
+  .cta{
+    display:inline-flex;align-self:flex-start;
+    background:var(--gold);color:var(--navy);font-family:'Inter';font-weight:600;
+    font-size:clamp(.66rem,1vw,.82rem);padding:.62em 1.3em;border-radius:3px;
+    letter-spacing:.02em;position:relative;z-index:2;
+  }
+  .mobile-frame .cta{font-size:.6rem;padding:.55em 1em;}
+
+  /* A — photo-led (placeholder) */
+  .mock-a .hero::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 78% 20%, rgba(197,155,39,.30), transparent 55%),
+      radial-gradient(90% 70% at 30% 100%, rgba(28,37,65,0) 0%, rgba(28,37,65,.55) 60%, rgba(28,37,65,.95) 100%),
+      linear-gradient(160deg,#26314f 0%,#1c2541 55%,#141a30 100%);
+  }
+  .mock-a .hero::after{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(38% 55% at 68% 42%, rgba(0,0,0,.35), transparent 70%);
+  }
+  .placeholder-tag{
+    position:absolute;top:.7rem;right:.7rem;z-index:3;
+    font-family:'Inter';font-size:.55rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(248,246,240,.75);border:1px dashed rgba(248,246,240,.4);
+    padding:.25em .55em;border-radius:3px;
+  }
+  .mobile-frame .placeholder-tag{font-size:.45rem;top:.5rem;right:.5rem;}
+  .mock-a .wordmark{
+    font-family:'Playfair Display';font-weight:600;color:var(--cream);
+    font-size:clamp(.72rem,1.3vw,1rem);letter-spacing:.03em;margin:0 0 auto;position:relative;z-index:2;
+  }
+
+  /* B — monogram / badge-led */
+  .mock-b .hero{
+    background:radial-gradient(120% 100% at 50% 0%,#26314f 0%,#1c2541 60%,#141a30 100%);
+    justify-content:center;align-items:center;text-align:center;
+  }
+  .badge{
+    width:clamp(2.6rem,7vw,4.4rem);height:clamp(2.6rem,7vw,4.4rem);border-radius:50%;
+    border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
+    margin-bottom:.9rem;position:relative;z-index:2;
+  }
+  .mobile-frame .badge{width:2.6rem;height:2.6rem;margin-bottom:.6rem;}
+  .badge svg{width:52%;height:52%;}
+  .mock-b h2{font-size:clamp(1rem,2.2vw,1.7rem);}
+  .mock-b .sub{margin-left:auto;margin-right:auto;text-align:center;}
+  .mock-b .cta{align-self:center;}
+
+  /* C — typographic-led */
+  .mock-c .hero{
+    background:linear-gradient(180deg,#1c2541 0%,#171e38 100%);
+    justify-content:center;padding-left:clamp(1.1rem,4vw,2.8rem);
+  }
+  .rule{width:2.4rem;height:1px;background:var(--gold);margin-bottom:.9rem;position:relative;z-index:2;}
+  .mock-c h2{font-size:clamp(1.3rem,3.4vw,2.5rem);letter-spacing:-.01em;}
+  .mobile-frame .mock-c h2{font-size:1.2rem;}
+  .tagpill{
+    display:inline-flex;align-self:flex-start;font-family:'Inter';font-size:.6rem;font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--navy);background:var(--sage);
+    padding:.3em .7em;border-radius:100px;margin-bottom:.8rem;position:relative;z-index:2;
+  }
+  .mobile-frame .tagpill{font-size:.5rem;}
+
+  footer.note{
+    margin-top:3rem;padding-top:1.6rem;border-top:1px solid var(--page-border);
+    font-size:.85rem;color:var(--page-ink-soft);line-height:1.6;max-width:64ch;
+  }
+  footer.note b{color:var(--page-ink);}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">Discovery UX — Mister Steph On Sax</p>
+    <h1>Trois pistes pour le Hero, avant de trancher logo &amp; photo</h1>
+    <p>La palette, les typos et les textes du Hero sont déjà fixés dans le brief — seul l'ancrage visuel change d'une direction à l'autre : photo, monogramme, ou typographie seule. Chaque piste répond différemment à « je n'ai pas encore de logo ni de photos ».</p>
+    <div class="locked">
+      <span class="chip"><b>Fond</b> Bleu Nuit #1C2541</span>
+      <span class="chip"><b>CTA</b> Or Brossé #C59B27</span>
+      <span class="chip"><b>Titres</b> Playfair Display</span>
+      <span class="chip"><b>Corps</b> Inter</span>
+    </div>
+  </header>
+
+  <section class="direction mock-a">
+    <div class="dir-head">
+      <div>
+        <h3 class="dir-title"><span class="letter">A —</span> Silhouette au clair de lune</h3>
+        <p class="dir-rationale">Une vraie photo (silhouette du sax, lumière chaude en contre-jour) porte le Hero ; le nom reste un pur logotype, sans icône. Le plus impactant, mais suppose une séance photo pro avant lancement.</p>
+      </div>
+      <span class="dir-need">Nécessite&nbsp;: photo</span>
+    </div>
+    <div class="frames">
+      <div class="desktop-frame">
+        <div class="chrome">
+          <div class="chrome-bar"><span></span><span></span><span></span></div>
+          <div class="hero">
+            <div class="placeholder-tag">emplacement photo</div>
+            <p class="wordmark">Mister Steph On Sax</p>
+            <p class="hero-eyebrow">Vin d'honneur · Mariage</p>
+            <h2>Mister Steph On Sax</h2>
+            <p class="sub">Saxophoniste Événementiel &amp; Vins d'Honneur</p>
+            <span class="cta">Réserver une date</span>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-frame">
+        <div class="chrome">
+          <div class="chrome-bar"><span></span></div>
+          <div class="hero">
+            <div class="placeholder-tag">photo</div>
+            <p class="wordmark">Mister Steph On Sax</p>
+            <h2>Mister Steph On Sax</h2>
+            <p class="sub">Saxophoniste Événementiel &amp; Vins d'Honneur</p>
+            <span class="cta">Réserver une date</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="direction mock-b">
+    <div class="dir-head">
+      <div>
+        <h3 class="dir-title"><span class="letter">B —</span> Insigne laiton</h3>
+        <p class="dir-rationale">Un insigne gravé — trait fin doré, esprit carton de table ou plaque de laiton — sert de repère visuel léger et devient le logo (déclinable en favicon, réseaux sociaux) sans attendre aucune photo.</p>
+      </div>
+      <span class="dir-need">Prêt aujourd'hui</span>
+    </div>
+    <div class="frames">
+      <div class="desktop-frame">
+        <div class="chrome">
+          <div class="chrome-bar"><span></span><span></span><span></span></div>
+          <div class="hero">
+            <div class="badge">
+              <svg viewBox="0 0 40 40" fill="none" stroke="#C59B27" stroke-width="1.6" stroke-linecap="round">
+                <path d="M14 8c0 6 0 10 4 13s10 2 10 8c0 3.5-2.8 6-6.2 6"/>
+                <circle cx="21.8" cy="35" r="2.1"/>
+                <circle cx="16" cy="11" r="1"/>
+                <circle cx="16" cy="15" r="1"/>
+              </svg>
+            </div>
+            <h2>Mister Steph On Sax</h2>
+            <p class="sub">Saxophoniste Événementiel &amp; Vins d'Honneur</p>
+            <span class="cta">Réserver une date</span>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-frame">
+        <div class="chrome">
+          <div class="chrome-bar"><span></span></div>
+          <div class="hero">
+            <div class="badge">
+              <svg viewBox="0 0 40 40" fill="none" stroke="#C59B27" stroke-width="1.6" stroke-linecap="round">
+                <path d="M14 8c0 6 0 10 4 13s10 2 10 8c0 3.5-2.8 6-6.2 6"/>
+                <circle cx="21.8" cy="35" r="2.1"/>
+                <circle cx="16" cy="11" r="1"/>
+                <circle cx="16" cy="15" r="1"/>
+              </svg>
+            </div>
+            <h2>Mister Steph On Sax</h2>
+            <p class="sub">Saxophoniste Événementiel &amp; Vins d'Honneur</p>
+            <span class="cta">Réserver une date</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="direction mock-c">
+    <div class="dir-head">
+      <div>
+        <h3 class="dir-title"><span class="letter">C —</span> Partition éditoriale</h3>
+        <p class="dir-rationale">Le mot devient l'image : grand Playfair Display, filet doré, aucune icône ni photo. Zéro dépendance à un asset visuel — le plus rapide à mettre en ligne, quitte à faire évoluer le Hero plus tard.</p>
+      </div>
+      <span class="dir-need">Prêt aujourd'hui</span>
+    </div>
+    <div class="frames">
+      <div class="desktop-frame">
+        <div class="chrome">
+          <div class="chrome-bar"><span></span><span></span><span></span></div>
+          <div class="hero">
+            <span class="tagpill">Vins d'honneur · Mariages</span>
+            <div class="rule"></div>
+            <h2>Mister Steph<br>On Sax</h2>
+            <p class="sub">Saxophoniste Événementiel &amp; Vins d'Honneur</p>
+            <span class="cta">Réserver une date</span>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-frame">
+        <div class="chrome">
+          <div class="chrome-bar"><span></span></div>
+          <div class="hero">
+            <span class="tagpill">Vins d'honneur</span>
+            <div class="rule"></div>
+            <h2>Mister Steph<br>On Sax</h2>
+            <p class="sub">Saxophoniste Événementiel &amp; Vins d'Honneur</p>
+            <span class="cta">Réserver une date</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="note">
+    <p><b>Aucune image réelle utilisée</b> — la zone marquée « emplacement photo » en piste A est un dégradé de substitution, pas un asset final. Les pistes B et C n'attendent aucune photographie pour être mises en ligne. Palette, typographies et textes du Hero sont ceux du brief ; rien n'a été ajouté ni changé.</p>
+  </footer>
+</div>

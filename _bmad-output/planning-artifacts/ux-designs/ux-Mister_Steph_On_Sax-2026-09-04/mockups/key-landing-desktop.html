@@ -1,0 +1,185 @@
+<!--
+  Key-screen mock — canonical entry surface (the whole one-page landing).
+  Governed by: DESIGN.md (Colors, Typography, Components) + EXPERIENCE.md (Information Architecture, Component Patterns, State Patterns, Key Flows).
+  Direction B (insigne laiton) — see ../.working/direction-hero-A-B-C.html for the discarded A/C alternatives.
+  Illustrative only: formule/card copy is placeholder-quality (not final marketing copy) — final wording is a build-phase task.
+-->
+<title>MSOS Landing Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --surface:#F8F6F0;
+    --surface-card:#FFFFFF;
+    --navy:#1C2541;
+    --ink:#1C2541;
+    --ink-soft:#4C5468;
+    --on-navy:#F8F6F0;
+    --on-navy-soft:#C7CBDA;
+    --gold:#C59B27;
+    --on-gold:#1C2541;
+    --sage:#84A59D;
+    --on-sage:#1C2541;
+    --border:#E4E1D8;
+    --border-strong:#8C8268;
+    --error:#B3261E;
+    --focus-ring:#1C2541;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#EDEAE1;}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);}
+
+  .device{max-width:1180px;margin:2rem auto 4rem;border:1px solid #d8d4c8;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);background:var(--surface);}
+  .chrome-bar{display:flex;gap:6px;align-items:center;padding:.6rem .9rem;background:#EDEAE1;border-bottom:1px solid #d8d4c8;}
+  .chrome-bar span{width:8px;height:8px;border-radius:50%;background:#cfcabb;}
+
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin:0 0 .8rem;}
+
+  h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;margin:0;}
+  p{margin:0;}
+
+  /* ---- Hero ---- */
+  .hero{background:var(--navy);color:var(--on-navy);padding:clamp(3rem,7vw,5.5rem) clamp(1.5rem,6vw,4rem);text-align:center;display:flex;flex-direction:column;align-items:center;}
+  .badge{width:64px;height:64px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;}
+  .badge svg{width:52%;height:52%;}
+  .hero .eyebrow{color:var(--gold);}
+  .hero h1{font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.1;max-width:16ch;text-wrap:balance;}
+  .hero .sub{font-size:clamp(.95rem,1.6vw,1.15rem);color:var(--on-navy-soft);margin:1rem 0 2rem;max-width:34ch;}
+  .cta{display:inline-flex;background:var(--gold);color:var(--on-gold);font-weight:600;font-size:.95rem;letter-spacing:.02em;padding:.9em 1.9em;border-radius:3px;text-decoration:none;}
+
+  /* ---- Écoute ---- */
+  .listen{background:var(--sage);color:var(--on-sage);padding:clamp(2.6rem,6vw,4rem) clamp(1.5rem,6vw,4rem);display:grid;grid-template-columns:1fr auto;gap:2.5rem;align-items:center;}
+  .listen .eyebrow{color:var(--ink);}
+  .listen h2{font-size:clamp(1.4rem,2.6vw,1.9rem);margin-bottom:.7rem;}
+  .listen p.teaser{font-size:.98rem;line-height:1.6;max-width:42ch;opacity:.9;}
+  .wave{display:flex;align-items:flex-end;gap:4px;height:64px;}
+  .wave span{width:5px;background:var(--navy);opacity:.55;border-radius:2px;}
+
+  /* ---- Formules ---- */
+  .formules{background:var(--surface);padding:clamp(2.6rem,6vw,4.5rem) clamp(1.5rem,6vw,4rem);}
+  .formules .eyebrow{color:var(--ink);}
+  .formules h2{font-size:clamp(1.5rem,2.8vw,2rem);margin-bottom:2rem;max-width:24ch;}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .card{background:var(--surface-card);border:1px solid var(--border-strong);border-radius:8px;padding:1.6rem;}
+  .card h3{font-size:1.15rem;margin-bottom:.6rem;}
+  .card p{font-size:.9rem;line-height:1.55;color:var(--ink-soft);}
+
+  /* ---- Contact ---- */
+  .contact{background:var(--surface-card);padding:clamp(2.6rem,6vw,4.5rem) clamp(1.5rem,6vw,4rem);border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+  .contact .eyebrow{color:var(--ink);}
+  .contact h2{font-size:clamp(1.4rem,2.6vw,1.8rem);margin-bottom:1.4rem;max-width:22ch;}
+  form{display:flex;flex-direction:column;gap:1.1rem;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+  label{font-size:.85rem;font-weight:500;display:block;margin-bottom:.35rem;}
+  input,select{width:100%;font-family:'Inter';font-size:.92rem;padding:.65em .8em;border:1px solid var(--border-strong);border-radius:3px;background:#fff;color:var(--ink);}
+  input:focus-visible,select:focus-visible,.cta:focus-visible,.submit:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;}
+  .error-msg{font-size:.82rem;color:var(--error);margin-top:.35rem;}
+  .submit{align-self:flex-start;background:var(--gold);color:var(--on-gold);font-weight:600;font-size:.92rem;border:none;padding:.85em 1.8em;border-radius:3px;cursor:pointer;}
+
+  .state-panel{background:var(--surface);border:1px dashed var(--border);border-radius:8px;padding:1.6rem;}
+  .state-label{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:1rem;}
+  .success{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.6rem;}
+  .success h3{font-size:1.05rem;margin-bottom:.5rem;}
+  .success p{font-size:.9rem;color:var(--ink-soft);line-height:1.55;}
+  .success .check{width:34px;height:34px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;}
+
+  .caption{max-width:1180px;margin:0 auto 3rem;padding:0 1rem;font-size:.82rem;color:#6b6656;line-height:1.6;}
+
+  @media (max-width:760px){
+    .listen{grid-template-columns:1fr;}
+    .cards{grid-template-columns:1fr;}
+    .contact{grid-template-columns:1fr;}
+    .row2{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="device">
+  <div class="chrome-bar"><span></span><span></span><span></span></div>
+
+  <section class="hero">
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 40 40" fill="none" stroke="#C59B27" stroke-width="1.6" stroke-linecap="round">
+        <path d="M14 8c0 6 0 10 4 13s10 2 10 8c0 3.5-2.8 6-6.2 6"/>
+        <circle cx="21.8" cy="35" r="2.1"/>
+        <circle cx="16" cy="11" r="1"/>
+        <circle cx="16" cy="15" r="1"/>
+      </svg>
+    </div>
+    <p class="eyebrow">Vin d'honneur · Mariage · Événementiel</p>
+    <h1>Mister Steph On Sax</h1>
+    <p class="sub">Saxophoniste Événementiel &amp; Vins d'Honneur</p>
+    <a class="cta" href="#contact">Réserver une date</a>
+  </section>
+
+  <section class="listen" id="ecoute">
+    <div>
+      <p class="eyebrow">Ambiance</p>
+      <h2>Un avant-goût de l'ambiance</h2>
+      <p class="teaser">Extraits disponibles sur demande — nouvelles démos bientôt en ligne.</p>
+    </div>
+    <div class="wave" aria-hidden="true">
+      <span style="height:22px"></span><span style="height:40px"></span><span style="height:16px"></span>
+      <span style="height:52px"></span><span style="height:28px"></span><span style="height:44px"></span>
+      <span style="height:18px"></span><span style="height:36px"></span><span style="height:24px"></span>
+    </div>
+  </section>
+
+  <section class="formules">
+    <p class="eyebrow">Présentation &amp; Formules</p>
+    <h2>Deux formules pour accompagner votre réception</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Vin d'Honneur</h3>
+        <p>Une présence discrète et chaleureuse pendant l'accueil des invités — un répertoire choisi pour installer l'ambiance sans jamais la couvrir.</p>
+      </div>
+      <div class="card">
+        <h3>Cocktail</h3>
+        <p>Une prestation plus rythmée pour accompagner le cocktail dînatoire, du standard jazz à la reprise contemporaine.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div>
+      <p class="eyebrow">Contact &amp; Devis</p>
+      <h2>Une date à réserver ? Parlons-en.</h2>
+      <form>
+        <div class="row2">
+          <div><label>Nom</label><input type="text" placeholder="Dupont"></div>
+          <div><label>Prénom</label><input type="text" placeholder="Camille"></div>
+        </div>
+        <div>
+          <label for="f-date">Date de l'événement</label>
+          <input id="f-date" type="date" aria-describedby="f-date-err" aria-invalid="true" style="border-color:var(--error)">
+          <p id="f-date-err" class="error-msg">Merci d'indiquer une date d'événement.</p>
+        </div>
+        <div>
+          <label>Type de prestation</label>
+          <select>
+            <option>Vin d'honneur</option>
+            <option>Cocktail</option>
+            <option>Cérémonie</option>
+            <option>Soirée complète</option>
+            <option>Événement d'entreprise</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div><label>Lieu (région, secteur ou lieu du mariage)</label><input type="text" placeholder="Bordeaux et alentours"></div>
+        <button class="submit" type="button" aria-disabled="false">Envoyer ma demande</button>
+      </form>
+      <p class="state-label" style="margin-top:1.4rem;">État — erreur de champ (exemple sur "Date", au blur ou à la soumission)</p>
+    </div>
+    <div>
+      <p class="state-label">État — après envoi réussi (<code>role="status"</code>)</p>
+      <div class="success" role="status">
+        <div class="check" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#1C2541" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 5"/></svg>
+        </div>
+        <h3>Demande envoyée</h3>
+        <p>Votre demande a bien été envoyée. Réponse sous 48h.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<p class="caption">Maquette de référence — desktop, ordre de blocs fixe (Hero → Écoute → Formules → Contact). Version mobile de référence : voir les cadres « mobile » dans <code>../.working/direction-hero-A-B-C.html</code> pour le traitement du Hero ; le reste des blocs repasse en 1 colonne sous 760px comme décrit dans EXPERIENCE.md § Responsive &amp; Platform. Copie des cartes Formules illustrative, pas définitive. États illustrés (erreur de champ, succès) intègrent les corrections de la revue accessibilité — voir EXPERIENCE.md § State Patterns.</p>

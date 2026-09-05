@@ -9,7 +9,7 @@ import { heroContent } from '@/lib/content'
 // the title legible without needing a cutout or color-matched backdrop.
 export function Hero() {
   return (
-    <section className="relative min-h-[640px] overflow-hidden bg-navy text-on-navy md:h-[760px] md:min-h-0">
+    <section className="relative min-h-[640px] overflow-hidden bg-navy text-on-navy md:h-[620px] md:min-h-0">
       {/* Mobile gets its own pre-cropped asset (bottom trimmed) — at this
           aspect ratio, `fill`+cover leaves zero vertical slack to pan with
           object-position (the container's aspect is narrower/taller than

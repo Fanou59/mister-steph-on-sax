@@ -32,7 +32,7 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="hidden object-cover object-[78%_48%] md:block"
+        className="hidden object-cover object-[78%_40%] md:block"
       />
 
       {/* Scrim — mobile: fades from navy (top) down into the photo. Kept

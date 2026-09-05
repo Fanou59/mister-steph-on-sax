@@ -1,43 +1,45 @@
+import Image from 'next/image'
 import { heroContent } from '@/lib/content'
 
 // AD-1 — Server Component, static, no client JS shipped for this section.
+// Photo-led Hero (supersedes the badge-only Direction B, now that a real
+// photo of Stephane exists — see ARCHITECTURE-SPINE.md § Deferred). The
+// photo is a pre-cut (transparent background) asset placed directly on
+// the navy Hero background, so no color-matching is needed at runtime.
 export function Hero() {
   return (
-    <section className="flex flex-col items-center bg-navy px-gutter-mobile py-section-y text-center text-on-navy md:px-gutter-desktop">
-      <div
-        aria-hidden="true"
-        className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border-[1.5px] border-gold"
-      >
-        <svg
-          viewBox="0 0 40 40"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.6}
-          strokeLinecap="round"
-          className="h-8 w-8 text-gold"
-        >
-          <path d="M14 8c0 6 0 10 4 13s10 2 10 8c0 3.5-2.8 6-6.2 6" />
-          <circle cx="21.8" cy="35" r="2.1" />
-          <circle cx="16" cy="11" r="1" />
-          <circle cx="16" cy="15" r="1" />
-        </svg>
-      </div>
+    <section className="relative overflow-hidden bg-navy text-on-navy">
+      <div className="relative mx-auto flex max-w-[1400px] flex-col md:h-[720px] md:flex-row md:items-stretch">
+        <div className="relative order-2 mt-2 h-64 w-full sm:h-80 md:absolute md:inset-y-0 md:right-8 md:order-none md:mt-0 md:h-full md:w-[46%]">
+          <Image
+            src="/hero-stephane.webp"
+            alt=""
+            aria-hidden="true"
+            fill
+            priority
+            sizes="(min-width: 768px) 46vw, 100vw"
+            className="object-contain object-bottom md:object-right-bottom"
+          />
+        </div>
 
-      <p className="mb-3 font-sans text-eyebrow uppercase text-gold">
-        {heroContent.eyebrow}
-      </p>
-      <h1 className="max-w-[16ch] text-balance font-display text-h1">
-        {heroContent.title}
-      </h1>
-      <p className="mt-4 max-w-[34ch] font-sans text-body text-on-navy-soft/85">
-        {heroContent.subtitle}
-      </p>
-      <a
-        href="#contact"
-        className="mt-8 inline-flex min-h-11 items-center rounded-sm bg-gold px-8 py-3.5 font-sans text-button text-on-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-navy"
-      >
-        {heroContent.ctaLabel}
-      </a>
+        <div className="relative z-10 order-1 flex flex-col items-start px-gutter-mobile py-section-y md:w-[64%] md:justify-center md:px-gutter-desktop md:py-0">
+          <p className="mb-3 font-sans text-eyebrow uppercase text-gold">
+            {heroContent.eyebrow}
+          </p>
+          <h1 className="max-w-[10ch] text-balance font-display text-h1 leading-[0.98] md:text-[clamp(2.5rem,6vw,4.6rem)]">
+            {heroContent.title}
+          </h1>
+          <p className="mt-4 max-w-[34ch] font-sans text-body text-on-navy-soft/85">
+            {heroContent.subtitle}
+          </p>
+          <a
+            href="#contact"
+            className="mt-8 inline-flex min-h-11 items-center rounded-sm bg-gold px-8 py-3.5 font-sans text-button text-on-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-navy"
+          >
+            {heroContent.ctaLabel}
+          </a>
+        </div>
+      </div>
     </section>
   )
 }

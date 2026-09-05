@@ -2,7 +2,7 @@
 name: Mister Steph On Sax
 description: Landing page one-page pour un saxophoniste événementiel (mariages, vins d'honneur, événementiel). Chic discret, ambiance chill, laiton doré sur bleu nuit.
 status: final
-updated: 2026-09-04
+updated: 2026-09-05
 colors:
   surface: '#F8F6F0'
   surface-card: '#FFFFFF'
@@ -111,7 +111,7 @@ components:
 
 ## Brand & Style
 
-Élégance discrète plutôt que tape-à-l'œil : un bleu nuit profond en socle, une touche de laiton (or brossé, jamais doré criard) en accent, et un vert sauge doux pour respirer. Le sérieux d'un événement (mariage, réception professionnelle) rencontre la décontraction du live — d'où l'association Playfair Display (haut de gamme, cérémonial) / Inter (net, sans emphase). Le logo est un insigne gravé au trait fin (`{colors.gold}` sur `{colors.navy}`), dans l'esprit d'un carton de table ou d'une plaque de laiton — il ne dépend d'aucune photographie et reste lisible en petit (favicon, réseaux sociaux, support imprimé). Aucune photo n'est utilisée tant qu'un shooting n'a pas eu lieu ; la piste "photo-led" (fond photo plein cadre) reste ouverte pour une itération future si des visuels de qualité deviennent disponibles.
+Élégance discrète plutôt que tape-à-l'œil : un bleu nuit profond en socle, une touche de laiton (or brossé, jamais doré criard) en accent, et un vert sauge doux pour respirer. Le sérieux d'un événement (mariage, réception professionnelle) rencontre la décontraction du live — d'où l'association Playfair Display (haut de gamme, cérémonial) / Inter (net, sans emphase). Le logo reste un insigne gravé au trait fin (`{colors.gold}` sur `{colors.navy}`), dans l'esprit d'un carton de table ou d'une plaque de laiton — utilisable en petit (favicon, réseaux sociaux, support imprimé) indépendamment de toute photo. **Mise à jour (2026-09-05) :** une photo de Stephane, validée par lui, existe maintenant et remplace l'insigne dans le Hero (Direction A, détourée en vraie transparence — voir Components ci-dessous) ; l'insigne reste disponible pour un usage futur hors-Hero (favicon, réseaux sociaux) si besoin.
 
 ## Colors
 
@@ -144,7 +144,7 @@ Angles doux mais pas arrondis "app mobile" : `{rounded.sm}` sur les boutons et c
 
 | Component | Visual spec |
 |---|---|
-| **Hero** | Fond `{components.hero.background}` plein écran (hauteur au contenu, pas 100vh forcé). Insigne (`{components.badge}`) centré au-dessus du titre. Titre `{typography.h1}` en `{components.hero.text}`, sous-titre `{typography.body}` en `{components.hero.subtitleText}` (opacité réduite ~85%). |
+| **Hero** | Fond `{components.hero.background}` (hauteur au contenu, pas 100vh forcé). Desktop : photo de Stephane détourée (transparence réelle, pas de fond à raccorder) ancrée à droite, texte à gauche sur environ 64% de la largeur. Mobile : texte d'abord, photo centrée en dessous (voir Structural Seed de l'architecture pour les proportions exactes). Titre `{typography.h1}` en `{components.hero.text}` (plus grand sur desktop que le token de base pour porter la composition élargie), sous-titre `{typography.body}` en `{components.hero.subtitleText}` (opacité réduite ~85%). |
 | **CTA button** | `{components.cta-button.background}` / texte `{components.cta-button.text}`, `{components.cta-button.radius}`, `{components.cta-button.font}`. Un seul CTA visuellement fort par écran — pas de second bouton doré en concurrence directe. |
 | **Badge / insigne (logo)** | Cercle `{components.badge.shape}`, contour `{components.badge.border}`, fond transparent (laisse voir le fond navy derrière), motif trait fin ligne-sax en `{colors.gold}`. |
 | **Bloc Écoute (teaser)** | Fond `{components.audio-teaser.background}`, texte `{components.audio-teaser.text}`. Visuel d'onde sonore statique (pas de lecteur fonctionnel tant qu'aucune démo n'est prête). |
@@ -158,7 +158,7 @@ Angles doux mais pas arrondis "app mobile" : `{rounded.sm}` sur les boutons et c
 
 - **Do** garder l'or (`{colors.gold}`) rare et intentionnel — CTA, insigne, filets fins.
 - **Do** utiliser `{colors.surface}` (blanc cassé) comme neutre par défaut, jamais du blanc pur.
-- **Don't** poser de photo tant qu'elle n'est pas de qualité pro validée — préférer l'insigne seul à une photo générique/stock.
+- **Don't** poser une photo qui n'a pas été validée par Stephane (contenu, cadrage, détourage) — la photo actuelle du Hero l'a été.
 - **Don't** mettre deux CTA dorés visibles simultanément dans le même écran.
 - **Don't** utiliser `{colors.gold}` ou `{colors.sage}` comme couleur de texte eyebrow sur fond clair — échoue le contraste AA (voir § Typography).
 - **Don't** utiliser `{colors.border}` seul comme limite visible d'un champ ou d'une carte — utiliser `{colors.border-strong}`.

@@ -7,7 +7,7 @@ paradigm: 'Server-first App Router — Server Components by default, one Client 
 scope: 'Landing page one-page Mister Steph On Sax (Next.js/Vercel)'
 status: final
 created: '2026-09-04'
-updated: '2026-09-04'
+updated: '2026-09-05'
 binds: []
 sources:
   - '{planning_artifacts}/ux-designs/ux-Mister_Steph_On_Sax-2026-09-04/DESIGN.md'
@@ -152,7 +152,7 @@ emails/
 
 ## Deferred
 
-- **Intégration Cloudinary** — aucune photo réelle n'existe au lancement (Direction B retenue en UX, sans photo). À trancher (`next-cloudinary` vs helper URL manuel signé) quand de vraies photographies seront disponibles ; revisiter cette spine (Update) à ce moment-là.
+- **Intégration Cloudinary** — **résolu (2026-09-05), sans Cloudinary.** Une seule photo (Hero) existe pour l'instant ; elle est servie comme asset statique dans `public/` via `next/image` (optimisation, formats modernes et responsive intégrés à Next.js, zéro compte/service externe à configurer). Cloudinary resterait pertinent si le volume de photos/vidéos gérées par Stephane lui-même (sans passer par un déploiement) grossissait — à réévaluer si ce besoin apparaît.
 - **Lecteur audio/vidéo fonctionnel** — la section Écoute reste un teaser statique tant qu'aucune démo n'est prête (cf. `EXPERIENCE.md`). Le choix du lecteur (natif `<audio>`, embed Instagram/SoundCloud) est différé jusqu'à ce que du contenu existe.
 - **Internationalisation** — une seule langue (français) au lancement ; pas de structure i18n mise en place tant qu'un besoin réel n'apparaît pas.
 - **Analytics/observabilité** — aucun outil de suivi (Vercel Analytics ou autre) n'a été demandé. **Prevents:** aucune unité n'ajoute de script d'analytics/tracking (y compris les défauts de scaffold Next.js/Vercel comme `@vercel/analytics`) avant que ce point soit explicitement tranché — l'ajouter en douce ouvrirait aussi une question RGPD/consentement cookies non traitée par cette spine. À rouvrir ensemble si Stephane veut mesurer le trafic/les conversions du formulaire.

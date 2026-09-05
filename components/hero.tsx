@@ -35,16 +35,17 @@ export function Hero() {
         className="hidden object-cover object-[78%_55%] md:block"
       />
 
-      {/* Scrim — mobile: fades from navy (top) down into the photo. Kept
-          tall enough that the text block below never gets close to the
-          photo/face, regardless of font-rendering or Dynamic Type
-          differences across devices. */}
+      {/* Scrim — mobile: solid navy through the text zone (46% — same
+          safety margin as before), then a long gradual wash extending
+          almost all the way down, echoing the desktop version's "navy
+          bleeding across nearly the whole photo" look rather than a short,
+          hard-edged fade. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 md:hidden"
         style={{
           background:
-            'linear-gradient(180deg, #1C2541 0%, #1C2541 46%, rgba(28,37,65,0) 60%)',
+            'linear-gradient(180deg, #1C2541 0%, #1C2541 46%, rgba(28,37,65,0.82) 56%, rgba(28,37,65,0.6) 66%, rgba(28,37,65,0.36) 76%, rgba(28,37,65,0.16) 86%, rgba(28,37,65,0) 97%)',
         }}
       />
       <div

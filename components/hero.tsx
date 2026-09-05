@@ -10,6 +10,21 @@ import { heroContent } from '@/lib/content'
 export function Hero() {
   return (
     <section className="relative min-h-[640px] overflow-hidden bg-navy text-on-navy md:h-[760px] md:min-h-0">
+      {/* Mobile gets its own pre-cropped asset (bottom trimmed) — at this
+          aspect ratio, `fill`+cover leaves zero vertical slack to pan with
+          object-position (the container's aspect is narrower/taller than
+          the photo's, so height dictates the scale and the full source
+          height is always shown); only a shorter source crop can push the
+          subject's head down away from the text scrim. */}
+      <Image
+        src="/hero-stephane-stage-mobile.webp"
+        alt=""
+        aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[62%_50%] md:hidden"
+      />
       <Image
         src="/hero-stephane-stage.webp"
         alt=""
@@ -17,7 +32,7 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-[62%_70%] md:object-[78%_48%]"
+        className="hidden object-cover object-[78%_48%] md:block"
       />
 
       {/* Scrim — mobile: fades from navy (top) down into the photo. Kept

@@ -82,7 +82,7 @@ export const formulesSection = {
 
 export const contactSection = {
   eyebrow: 'Contact & Devis',
-  heading: 'Une date à réserver ? Parlons-en.',
+  heading: 'Une date à réserver ? Parlons‑en.',
 }
 
 // ---------------------------------------------------------------------------

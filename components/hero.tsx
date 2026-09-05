@@ -20,13 +20,16 @@ export function Hero() {
         className="object-cover object-[62%_70%] md:object-[78%_48%]"
       />
 
-      {/* Scrim — mobile: fades from navy (top) down into the photo. */}
+      {/* Scrim — mobile: fades from navy (top) down into the photo. Kept
+          tall enough that the text block below never gets close to the
+          photo/face, regardless of font-rendering or Dynamic Type
+          differences across devices. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[60%] md:hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[72%] md:hidden"
         style={{
           background:
-            'linear-gradient(180deg, #1C2541 0%, rgba(28,37,65,0.88) 40%, rgba(28,37,65,0) 100%)',
+            'linear-gradient(180deg, #1C2541 0%, #1C2541 55%, rgba(28,37,65,0.88) 75%, rgba(28,37,65,0) 100%)',
         }}
       />
       <div
@@ -47,7 +50,7 @@ export function Hero() {
         }}
       />
 
-      <div className="relative z-10 flex h-full flex-col justify-center px-gutter-mobile pb-10 pt-9 md:max-w-[760px] md:px-gutter-desktop md:py-0">
+      <div className="relative z-10 flex flex-col px-gutter-mobile pb-10 pt-9 md:h-full md:max-w-[760px] md:justify-center md:px-gutter-desktop md:py-0">
         <p className="mb-3 font-sans text-eyebrow uppercase text-gold">
           {heroContent.eyebrow}
         </p>

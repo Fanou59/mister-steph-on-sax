@@ -2,44 +2,72 @@ import Image from 'next/image'
 import { heroContent } from '@/lib/content'
 
 // AD-1 — Server Component, static, no client JS shipped for this section.
-// Photo-led Hero (supersedes the badge-only Direction B, now that a real
-// photo of Stephane exists — see ARCHITECTURE-SPINE.md § Deferred). The
-// photo is a pre-cut (transparent background) asset placed directly on
-// the navy Hero background, so no color-matching is needed at runtime.
+// Full-bleed action-shot Hero (supersedes the earlier cutout-portrait
+// version — both superseded the original badge-only Direction B). Photo
+// fills the section as a background; a scrim gradient (top-down on
+// mobile, left-right on desktop, both fading into {colors.navy}) keeps
+// the title legible without needing a cutout or color-matched backdrop.
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-navy text-on-navy">
-      <div className="relative mx-auto flex max-w-[1400px] flex-col md:h-[720px] md:flex-row md:items-stretch">
-        <div className="relative order-2 h-[440px] w-full md:absolute md:inset-y-0 md:right-8 md:order-none md:h-full md:w-[46%]">
-          <Image
-            src="/hero-stephane.webp"
-            alt=""
-            aria-hidden="true"
-            fill
-            priority
-            sizes="(min-width: 768px) 46vw, 100vw"
-            className="object-cover object-top md:object-contain md:object-right-bottom"
-          />
-        </div>
+    <section className="relative min-h-[640px] overflow-hidden bg-navy text-on-navy md:h-[760px] md:min-h-0">
+      <Image
+        src="/hero-stephane-stage.webp"
+        alt=""
+        aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[62%_70%] md:object-[78%_48%]"
+      />
 
-        <div className="relative z-10 order-1 flex flex-col items-start px-gutter-mobile py-section-y md:w-[64%] md:justify-center md:px-gutter-desktop md:py-0">
-          <p className="mb-3 font-sans text-eyebrow uppercase text-gold">
-            {heroContent.eyebrow}
-          </p>
-          <h1 className="max-w-[10ch] text-balance font-display text-h1 leading-[0.98] md:text-[clamp(2.5rem,6vw,4.6rem)]">
-            {heroContent.title}
-          </h1>
-          <p className="mt-4 max-w-[34ch] font-sans text-body text-on-navy-soft/85">
-            {heroContent.subtitle}
-          </p>
-          <a
-            href="#contact"
-            className="mt-8 inline-flex min-h-11 items-center rounded-sm bg-gold px-8 py-3.5 font-sans text-button text-on-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-navy"
-          >
-            {heroContent.ctaLabel}
-          </a>
-        </div>
+      {/* Scrim — mobile: fades from navy (top) down into the photo. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[60%] md:hidden"
+        style={{
+          background:
+            'linear-gradient(180deg, #1C2541 0%, rgba(28,37,65,0.88) 40%, rgba(28,37,65,0) 100%)',
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[22%] md:hidden"
+        style={{
+          background:
+            'linear-gradient(0deg, #1C2541 0%, rgba(28,37,65,0) 100%)',
+        }}
+      />
+      {/* Scrim — desktop: fades from navy (left) across into the photo. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden md:block"
+        style={{
+          background:
+            'linear-gradient(90deg, #1C2541 0%, rgba(28,37,65,0.99) 30%, rgba(28,37,65,0.9) 42%, rgba(28,37,65,0.6) 52%, rgba(28,37,65,0.28) 62%, rgba(28,37,65,0.08) 72%, rgba(28,37,65,0) 84%)',
+        }}
+      />
+
+      <div className="relative z-10 flex h-full flex-col justify-center px-gutter-mobile pb-10 pt-9 md:max-w-[760px] md:px-gutter-desktop md:py-0">
+        <p className="mb-3 font-sans text-eyebrow uppercase text-gold">
+          {heroContent.eyebrow}
+        </p>
+        <h1 className="max-w-[10ch] text-balance font-display text-h1 leading-[0.98] md:text-[clamp(2.5rem,6vw,4.6rem)]">
+          {heroContent.title}
+        </h1>
+        <p className="mt-4 max-w-[34ch] font-sans text-body text-on-navy-soft/85">
+          {heroContent.subtitle}
+        </p>
+        <a
+          href="#contact"
+          className="mt-8 inline-flex min-h-11 items-center self-start rounded-sm bg-gold px-8 py-3.5 font-sans text-button text-on-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-navy"
+        >
+          {heroContent.ctaLabel}
+        </a>
       </div>
+
+      <p className="absolute bottom-2 right-3 z-10 font-sans text-[0.65rem] text-on-navy/55">
+        {heroContent.photoCredit}
+      </p>
     </section>
   )
 }

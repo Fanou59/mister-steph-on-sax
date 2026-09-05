@@ -66,6 +66,9 @@ export const heroContent = {
   title: 'Mister Steph On Sax',
   subtitle: "Saxophoniste événementiel & vins d'honneur",
   ctaLabel: 'Réserver une date',
+  // Photographer attribution — required alongside Stephane's usage
+  // permission for this shot (see ARCHITECTURE-SPINE.md / DESIGN.md notes).
+  photoCredit: 'Photo : Didier Peron Photography',
 }
 
 export const listenSection = {

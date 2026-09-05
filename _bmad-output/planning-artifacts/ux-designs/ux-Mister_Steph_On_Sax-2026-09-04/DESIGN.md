@@ -111,7 +111,7 @@ components:
 
 ## Brand & Style
 
-Élégance discrète plutôt que tape-à-l'œil : un bleu nuit profond en socle, une touche de laiton (or brossé, jamais doré criard) en accent, et un vert sauge doux pour respirer. Le sérieux d'un événement (mariage, réception professionnelle) rencontre la décontraction du live — d'où l'association Playfair Display (haut de gamme, cérémonial) / Inter (net, sans emphase). Le logo reste un insigne gravé au trait fin (`{colors.gold}` sur `{colors.navy}`), dans l'esprit d'un carton de table ou d'une plaque de laiton — utilisable en petit (favicon, réseaux sociaux, support imprimé) indépendamment de toute photo. **Mise à jour (2026-09-05) :** une photo de Stephane, validée par lui, existe maintenant et remplace l'insigne dans le Hero (Direction A, détourée en vraie transparence — voir Components ci-dessous) ; l'insigne reste disponible pour un usage futur hors-Hero (favicon, réseaux sociaux) si besoin.
+Élégance discrète plutôt que tape-à-l'œil : un bleu nuit profond en socle, une touche de laiton (or brossé, jamais doré criard) en accent, et un vert sauge doux pour respirer. Le sérieux d'un événement (mariage, réception professionnelle) rencontre la décontraction du live — d'où l'association Playfair Display (haut de gamme, cérémonial) / Inter (net, sans emphase). Le logo reste un insigne gravé au trait fin (`{colors.gold}` sur `{colors.navy}`), dans l'esprit d'un carton de table ou d'une plaque de laiton — utilisable en petit (favicon, réseaux sociaux, support imprimé) indépendamment de toute photo. **Mise à jour (2026-09-05) :** une photo de Stephane, validée par lui, remplace l'insigne dans le Hero — pas une photo posée/détourée, mais une photo de scène (en train de jouer, prise par Didier Peron Photography, crédité en toutes lettres en bas du Hero) en plein cadre, avec un dégradé qui la fond dans le bleu nuit (voir Components ci-dessous). Choix motivé par une envie de rendu plus dynamique/vivant que le portrait posé initial. L'insigne reste disponible pour un usage futur hors-Hero (favicon, réseaux sociaux) si besoin.
 
 ## Colors
 
@@ -144,7 +144,7 @@ Angles doux mais pas arrondis "app mobile" : `{rounded.sm}` sur les boutons et c
 
 | Component | Visual spec |
 |---|---|
-| **Hero** | Fond `{components.hero.background}` (hauteur au contenu, pas 100vh forcé). Desktop : photo de Stephane détourée (transparence réelle, pas de fond à raccorder) ancrée à droite, texte à gauche sur environ 64% de la largeur. Mobile : texte d'abord, photo centrée en dessous (voir Structural Seed de l'architecture pour les proportions exactes). Titre `{typography.h1}` en `{components.hero.text}` (plus grand sur desktop que le token de base pour porter la composition élargie), sous-titre `{typography.body}` en `{components.hero.subtitleText}` (opacité réduite ~85%). |
+| **Hero** | Photo de scène plein cadre en arrière-plan (`object-fit: cover`), fond `{components.hero.background}` uniquement visible via le dégradé de fondu — jamais de bande de fond nue. Desktop : dégradé gauche→droite (opaque sur le texte, fondu progressif jusqu'à transparent sur la photo) ; texte cadré à gauche, largeur max ~760px. Mobile : dégradé haut→bas (texte d'abord en haut, photo pleine largeur en dessous, léger fondu aussi en bas). Crédit photo en petit, toujours visible, bas droite. Titre `{typography.h1}` en `{components.hero.text}` (plus grand sur desktop que le token de base pour porter la composition élargie), sous-titre `{typography.body}` en `{components.hero.subtitleText}` (opacité réduite ~85%). |
 | **CTA button** | `{components.cta-button.background}` / texte `{components.cta-button.text}`, `{components.cta-button.radius}`, `{components.cta-button.font}`. Un seul CTA visuellement fort par écran — pas de second bouton doré en concurrence directe. |
 | **Badge / insigne (logo)** | Cercle `{components.badge.shape}`, contour `{components.badge.border}`, fond transparent (laisse voir le fond navy derrière), motif trait fin ligne-sax en `{colors.gold}`. |
 | **Bloc Écoute (teaser)** | Fond `{components.audio-teaser.background}`, texte `{components.audio-teaser.text}`. Visuel d'onde sonore statique (pas de lecteur fonctionnel tant qu'aucune démo n'est prête). |
@@ -158,7 +158,7 @@ Angles doux mais pas arrondis "app mobile" : `{rounded.sm}` sur les boutons et c
 
 - **Do** garder l'or (`{colors.gold}`) rare et intentionnel — CTA, insigne, filets fins.
 - **Do** utiliser `{colors.surface}` (blanc cassé) comme neutre par défaut, jamais du blanc pur.
-- **Don't** poser une photo qui n'a pas été validée par Stephane (contenu, cadrage, détourage) — la photo actuelle du Hero l'a été.
+- **Don't** poser une photo qui n'a pas été validée par Stephane (contenu, cadrage, cadrage/`object-position`) ni sans confirmation qu'il a les droits de l'utiliser (photo de scène = généralement un photographe tiers à créditer) — la photo actuelle du Hero a les deux.
 - **Don't** mettre deux CTA dorés visibles simultanément dans le même écran.
 - **Don't** utiliser `{colors.gold}` ou `{colors.sage}` comme couleur de texte eyebrow sur fond clair — échoue le contraste AA (voir § Typography).
 - **Don't** utiliser `{colors.border}` seul comme limite visible d'un champ ou d'une carte — utiliser `{colors.border-strong}`.

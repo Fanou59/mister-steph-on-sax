@@ -26,10 +26,10 @@ export function Hero() {
           differences across devices. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[72%] md:hidden"
+        className="pointer-events-none absolute inset-0 md:hidden"
         style={{
           background:
-            'linear-gradient(180deg, #1C2541 0%, #1C2541 55%, rgba(28,37,65,0.88) 75%, rgba(28,37,65,0) 100%)',
+            'linear-gradient(180deg, #1C2541 0%, #1C2541 46%, rgba(28,37,65,0) 60%)',
         }}
       />
       <div

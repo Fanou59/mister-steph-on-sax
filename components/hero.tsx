@@ -10,7 +10,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-navy text-on-navy">
       <div className="relative mx-auto flex max-w-[1400px] flex-col md:h-[720px] md:flex-row md:items-stretch">
-        <div className="relative order-2 mt-2 h-64 w-full sm:h-80 md:absolute md:inset-y-0 md:right-8 md:order-none md:mt-0 md:h-full md:w-[46%]">
+        <div className="relative order-2 h-[440px] w-full md:absolute md:inset-y-0 md:right-8 md:order-none md:h-full md:w-[46%]">
           <Image
             src="/hero-stephane.webp"
             alt=""
@@ -18,7 +18,7 @@ export function Hero() {
             fill
             priority
             sizes="(min-width: 768px) 46vw, 100vw"
-            className="object-contain object-bottom md:object-right-bottom"
+            className="object-cover object-top md:object-contain md:object-right-bottom"
           />
         </div>
 

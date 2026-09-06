@@ -52,7 +52,7 @@ export const contactFormLabels: {
   telephone: 'Téléphone',
   date: "Date de l'événement",
   typePrestation: 'Type de prestation',
-  lieu: 'Lieu (région, secteur ou lieu du mariage)',
+  lieu: 'Lieu (région, ville)',
   message: 'Votre demande (facultatif)',
   submit: 'Envoyer ma demande',
 }

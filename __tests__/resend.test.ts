@@ -39,9 +39,11 @@ describe('sendContactEmails — Non-Production env (I/O & Edge-Case Matrix row 5
       nom: 'Dupont',
       prenom: 'Jean',
       email: 'jean.dupont@example.com',
+      telephone: '0760735733',
       date: '2026-10-10',
       typePrestation: 'vin-honneur',
       lieu: 'Lyon',
+      message: '',
     })
 
     expect(result).toEqual({ sent: true })
@@ -61,9 +63,11 @@ describe('sendContactEmails — Production env (AD-4 send contract)', () => {
     nom: 'Dupont',
     prenom: 'Jean',
     email: 'jean.dupont@example.com',
+    telephone: '0760735733',
     date: '2026-10-10',
     typePrestation: 'vin-honneur',
     lieu: 'Lyon',
+    message: '',
   }
 
   beforeEach(() => {

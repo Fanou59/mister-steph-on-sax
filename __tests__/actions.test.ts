@@ -22,6 +22,7 @@ function buildFormData(
     nom: 'Dupont',
     prenom: 'Jean',
     email: 'jean.dupont@example.com',
+    telephone: '0760735733',
     date: '2026-10-10',
     typePrestation: 'vin-honneur',
     lieu: 'Lyon',
@@ -54,9 +55,11 @@ describe('submitContactForm — I/O & Edge-Case Matrix', () => {
       nom: 'Dupont',
       prenom: 'Jean',
       email: 'jean.dupont@example.com',
+      telephone: '0760735733',
       date: '2026-10-10',
       typePrestation: 'vin-honneur',
       lieu: 'Lyon',
+      message: '',
     })
   })
 
@@ -80,9 +83,11 @@ describe('submitContactForm — I/O & Edge-Case Matrix', () => {
       nom: 'Dupont',
       prenom: 'Jean',
       email: 'jean.dupont@example.com',
+      telephone: '0760735733',
       date: '',
       typePrestation: 'vin-honneur',
       lieu: 'Lyon',
+      message: '',
     })
     expect(sendContactEmailsMock).not.toHaveBeenCalled()
   })
@@ -104,9 +109,11 @@ describe('submitContactForm — I/O & Edge-Case Matrix', () => {
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
+        telephone: '0760735733',
         date: '2026-10-10',
         typePrestation: 'vin-honneur',
         lieu: 'Lyon',
+        message: '',
       },
     })
   })

@@ -64,9 +64,11 @@ export function ContactForm() {
   const nomRef = useRef<HTMLInputElement>(null)
   const prenomRef = useRef<HTMLInputElement>(null)
   const emailRef = useRef<HTMLInputElement>(null)
+  const telephoneRef = useRef<HTMLInputElement>(null)
   const dateRef = useRef<HTMLInputElement>(null)
   const typePrestationRef = useRef<HTMLSelectElement>(null)
   const lieuRef = useRef<HTMLInputElement>(null)
+  const messageRef = useRef<HTMLTextAreaElement>(null)
   const successRef = useRef<HTMLDivElement>(null)
 
   // EXPERIENCE.md § State Patterns — focus moves to the first invalid field
@@ -91,12 +93,16 @@ export function ContactForm() {
         prenomRef.current?.focus()
       } else if (state.fieldErrors.email) {
         emailRef.current?.focus()
+      } else if (state.fieldErrors.telephone) {
+        telephoneRef.current?.focus()
       } else if (state.fieldErrors.date) {
         dateRef.current?.focus()
       } else if (state.fieldErrors.typePrestation) {
         typePrestationRef.current?.focus()
       } else if (state.fieldErrors.lieu) {
         lieuRef.current?.focus()
+      } else if (state.fieldErrors.message) {
+        messageRef.current?.focus()
       }
     }
 
@@ -193,6 +199,17 @@ export function ContactForm() {
           />
 
           <Field
+            id="telephone"
+            name="telephone"
+            label={contactFormLabels.telephone}
+            type="tel"
+            inputRef={telephoneRef}
+            error={fieldErrors.telephone}
+            defaultValue={submittedValues?.telephone}
+            onBlur={(event) => validateField('telephone', event.target.value)}
+          />
+
+          <Field
             id="date"
             name="date"
             label={contactFormLabels.date}
@@ -251,6 +268,37 @@ export function ContactForm() {
             defaultValue={submittedValues?.lieu}
             onBlur={(event) => validateField('lieu', event.target.value)}
           />
+
+          <div>
+            <label
+              htmlFor="message"
+              className="mb-1 block font-sans text-label text-ink"
+            >
+              {contactFormLabels.message}
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              ref={messageRef}
+              rows={4}
+              maxLength={2000}
+              defaultValue={submittedValues?.message}
+              aria-invalid={fieldErrors.message ? true : undefined}
+              aria-describedby={
+                fieldErrors.message ? 'message-error' : undefined
+              }
+              onBlur={(event) => validateField('message', event.target.value)}
+              className={formControlClass(Boolean(fieldErrors.message))}
+            />
+            {fieldErrors.message && (
+              <p
+                id="message-error"
+                className="mt-1 font-sans text-body-sm text-error"
+              >
+                {fieldErrors.message}
+              </p>
+            )}
+          </div>
 
           {/* AD-8 — honeypot. Visually and semantically hidden; part of the
               same Zod schema (lib/validation.ts) and checked first inside
@@ -315,7 +363,7 @@ interface FieldProps {
   id: string
   name: string
   label: string
-  type: 'text' | 'email' | 'date'
+  type: 'text' | 'email' | 'tel' | 'date'
   inputRef: RefObject<HTMLInputElement | null>
   error?: string
   defaultValue?: string

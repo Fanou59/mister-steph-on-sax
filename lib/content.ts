@@ -14,9 +14,6 @@
 export const prestationTypes: { value: string; label: string }[] = [
   { value: 'vin-honneur', label: "Vin d'honneur" },
   { value: 'cocktail', label: 'Cocktail' },
-  { value: 'ceremonie', label: 'Cérémonie' },
-  { value: 'soiree-complete', label: 'Soirée complète' },
-  { value: 'entreprise', label: "Événement d'entreprise" },
   { value: 'autre', label: 'Autre' },
 ]
 
@@ -42,17 +39,21 @@ export const contactFormLabels: {
   nom: string
   prenom: string
   email: string
+  telephone: string
   date: string
   typePrestation: string
   lieu: string
+  message: string
   submit: string
 } = {
   nom: 'Nom',
   prenom: 'Prénom',
   email: 'Email',
+  telephone: 'Téléphone',
   date: "Date de l'événement",
   typePrestation: 'Type de prestation',
   lieu: 'Lieu (région, secteur ou lieu du mariage)',
+  message: 'Votre demande (facultatif)',
   submit: 'Envoyer ma demande',
 }
 
@@ -209,9 +210,11 @@ export const contactFormMessages = {
     nom: 'Merci d’indiquer votre nom.',
     prenom: 'Merci d’indiquer votre prénom.',
     email: 'Merci d’indiquer une adresse email valide.',
+    telephone: 'Merci d’indiquer un numéro de téléphone valide.',
     date: 'Merci d’indiquer une date d’événement valide.',
     typePrestation: 'Merci de sélectionner un type de prestation.',
     lieu: 'Merci d’indiquer un lieu.',
+    message: 'Votre message est trop long (2000 caractères maximum).',
   },
 }
 
@@ -228,9 +231,11 @@ export const notificationEmailContent = {
     nom: 'Nom',
     prenom: 'Prénom',
     email: 'Email',
+    telephone: 'Téléphone',
     date: "Date de l'événement",
     typePrestation: 'Type de prestation',
     lieu: 'Lieu',
+    message: 'Message',
   },
 }
 
@@ -238,5 +243,5 @@ export const confirmationEmailContent = {
   subject: 'Votre demande a bien été reçue — Mister Steph On Sax',
   heading: 'Merci pour votre demande',
   body: 'Votre demande a bien été reçue. Réponse sous 48h.',
-  signature: 'Mister Steph On Sax',
+  signature: 'Stéphane',
 }

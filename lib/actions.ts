@@ -16,7 +16,14 @@ import {
 // have to retype the whole form, which EXPERIENCE.md explicitly rules out
 // for the technical-error case and is just as true for validation errors.
 export type SubmittedValues = Record<
-  'nom' | 'prenom' | 'email' | 'date' | 'typePrestation' | 'lieu',
+  | 'nom'
+  | 'prenom'
+  | 'email'
+  | 'telephone'
+  | 'date'
+  | 'typePrestation'
+  | 'lieu'
+  | 'message',
   string
 >
 
@@ -49,9 +56,11 @@ export async function submitContactForm(
     nom: getStringField(formData, 'nom'),
     prenom: getStringField(formData, 'prenom'),
     email: getStringField(formData, 'email'),
+    telephone: getStringField(formData, 'telephone'),
     date: getStringField(formData, 'date'),
     typePrestation: getStringField(formData, 'typePrestation'),
     lieu: getStringField(formData, 'lieu'),
+    message: getStringField(formData, 'message'),
     [HONEYPOT_FIELD_NAME]: getStringField(formData, HONEYPOT_FIELD_NAME),
   }
 
@@ -59,9 +68,11 @@ export async function submitContactForm(
     nom: raw.nom,
     prenom: raw.prenom,
     email: raw.email,
+    telephone: raw.telephone,
     date: raw.date,
     typePrestation: raw.typePrestation,
     lieu: raw.lieu,
+    message: raw.message,
   }
 
   // AD-8 — honeypot checked first, ahead of validation. A human never fills
@@ -88,7 +99,8 @@ export async function submitContactForm(
   }
 
   // Honeypot field stripped — it never leaves this function, real or fake.
-  const { nom, prenom, email, date, typePrestation, lieu } = parsed.data
+  const { nom, prenom, email, telephone, date, typePrestation, lieu, message } =
+    parsed.data
 
   // AD-4 — notification is sent first and blocks success; confirmation is
   // best-effort and handled entirely inside sendContactEmails.
@@ -96,9 +108,11 @@ export async function submitContactForm(
     nom,
     prenom,
     email,
+    telephone,
     date,
     typePrestation,
     lieu,
+    message,
   })
 
   if (!result.sent) {

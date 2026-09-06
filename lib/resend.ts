@@ -65,9 +65,11 @@ export async function sendContactEmails(
         nom: values.nom,
         prenom: values.prenom,
         email: values.email,
+        telephone: values.telephone,
         date: values.date,
         typePrestation: values.typePrestation,
         lieu: values.lieu,
+        message: values.message,
       }),
     })
 

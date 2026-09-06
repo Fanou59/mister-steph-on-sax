@@ -31,6 +31,14 @@ export const contactFormSchema = z.object({
     .trim()
     .min(1, contactFormMessages.validation.email)
     .email(contactFormMessages.validation.email),
+  telephone: z
+    .string()
+    .trim()
+    .min(1, contactFormMessages.validation.telephone)
+    .regex(
+      /^(?:(?:\+33|0033)[\s.-]?|0)[1-9](?:[\s.-]?\d{2}){4}$/,
+      contactFormMessages.validation.telephone,
+    ),
   date: z
     .string()
     .trim()
@@ -43,6 +51,15 @@ export const contactFormSchema = z.object({
     .trim()
     .min(1, contactFormMessages.validation.lieu)
     .max(200, contactFormMessages.validation.lieu),
+  // Free-text, optional. Only ever rendered as plain text (React Email
+  // <Text> escapes it automatically — never dangerouslySetInnerHTML), so
+  // the one real risk here is an oversized payload, capped below.
+  message: z
+    .string()
+    .trim()
+    .max(2000, contactFormMessages.validation.message)
+    .optional()
+    .default(''),
   [HONEYPOT_FIELD_NAME]: z.string().optional().default(''),
 })
 

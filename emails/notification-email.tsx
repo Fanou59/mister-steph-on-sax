@@ -7,9 +7,11 @@ export interface NotificationEmailProps {
   nom: string
   prenom: string
   email: string
+  telephone: string
   date: string
   typePrestation: ContactFormValues['typePrestation']
   lieu: string
+  message: string
 }
 
 function prestationLabel(value: string): string {
@@ -20,9 +22,11 @@ export default function NotificationEmail({
   nom,
   prenom,
   email,
+  telephone,
   date,
   typePrestation,
   lieu,
+  message,
 }: NotificationEmailProps) {
   const { heading, intro, fieldLabels } = notificationEmailContent
 
@@ -55,6 +59,9 @@ export default function NotificationEmail({
             <strong>{fieldLabels.email} :</strong> {email}
           </Text>
           <Text>
+            <strong>{fieldLabels.telephone} :</strong> {telephone}
+          </Text>
+          <Text>
             <strong>{fieldLabels.date} :</strong> {date}
           </Text>
           <Text>
@@ -64,6 +71,11 @@ export default function NotificationEmail({
           <Text>
             <strong>{fieldLabels.lieu} :</strong> {lieu}
           </Text>
+          {message && (
+            <Text style={{ whiteSpace: 'pre-wrap' }}>
+              <strong>{fieldLabels.message} :</strong> {message}
+            </Text>
+          )}
         </Container>
       </Body>
     </Html>

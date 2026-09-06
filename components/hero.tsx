@@ -11,8 +11,11 @@ import { heroContent } from '@/lib/content'
 // overlap needing legibility protection.
 export function Hero() {
   return (
-    <section className="relative min-h-[640px] overflow-hidden bg-navy text-on-navy md:h-[620px] md:min-h-0">
-      <div className="absolute bottom-0 right-[-10px] z-[1] md:right-5">
+    <section className="relative min-h-[640px] overflow-hidden bg-navy text-on-navy md:flex md:h-[620px] md:min-h-0 md:items-end">
+      {/* Mobile: photo anchored bottom-right, close to the section edge —
+          there's no "gap to the right edge" problem here since the photo
+          sits below the text, not beside it. */}
+      <div className="absolute bottom-0 right-[-10px] z-[1] md:hidden">
         <Image
           src="/hero-stephane-cutout.webp"
           alt=""
@@ -20,7 +23,7 @@ export function Hero() {
           width={1138}
           height={1750}
           priority
-          className="h-[400px] w-auto md:h-[680px]"
+          className="h-[400px] w-auto"
         />
       </div>
 
@@ -34,7 +37,7 @@ export function Hero() {
         }}
       />
 
-      <div className="relative z-10 flex flex-col px-gutter-mobile pb-10 pt-9 md:h-full md:max-w-[540px] md:justify-center md:px-gutter-desktop md:py-0">
+      <div className="relative z-10 flex flex-col px-gutter-mobile pb-10 pt-9 md:h-full md:w-[540px] md:shrink-0 md:justify-center md:px-gutter-desktop md:py-0">
         <p className="mb-3 font-sans text-eyebrow uppercase text-gold">
           {heroContent.eyebrow}
         </p>
@@ -50,6 +53,21 @@ export function Hero() {
         >
           {heroContent.ctaLabel}
         </a>
+      </div>
+
+      {/* Desktop: photo centered in the remaining space between the text
+          column and the section's right edge, rather than pinned to the
+          edge. */}
+      <div className="relative z-[1] hidden md:flex md:h-full md:flex-1 md:items-end md:justify-center">
+        <Image
+          src="/hero-stephane-cutout.webp"
+          alt=""
+          aria-hidden="true"
+          width={1138}
+          height={1750}
+          priority
+          className="h-[680px] w-auto"
+        />
       </div>
     </section>
   )

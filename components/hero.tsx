@@ -2,71 +2,39 @@ import Image from 'next/image'
 import { heroContent } from '@/lib/content'
 
 // AD-1 — Server Component, static, no client JS shipped for this section.
-// Full-bleed action-shot Hero (supersedes the earlier cutout-portrait
-// version — both superseded the original badge-only Direction B). Photo
-// fills the section as a background; a scrim gradient (top-down on
-// mobile, left-right on desktop, both fading into {colors.navy}) keeps
-// the title legible without needing a cutout or color-matched backdrop.
+// Cutout Hero — background removed from Stephane's own photo (busy indoor
+// scene with bystanders) and the figure duotoned into the brand navy so it
+// reads as part of the same palette rather than a flat-gray sticker. One
+// asset serves both breakpoints (no object-position cropping needed since
+// it's sized by height, not `fill`+cover); only the desktop gets a left-to-
+// right scrim, since on mobile the photo sits below the text with no
+// overlap needing legibility protection.
 export function Hero() {
   return (
     <section className="relative min-h-[640px] overflow-hidden bg-navy text-on-navy md:h-[620px] md:min-h-0">
-      {/* Mobile gets its own pre-cropped asset (bottom trimmed) — at this
-          aspect ratio, `fill`+cover leaves zero vertical slack to pan with
-          object-position (the container's aspect is narrower/taller than
-          the photo's, so height dictates the scale and the full source
-          height is always shown); only a shorter source crop can push the
-          subject's head down away from the text scrim. */}
-      <Image
-        src="/hero-stephane-stage-mobile.webp"
-        alt=""
-        aria-hidden="true"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[62%_50%] md:hidden"
-      />
-      <Image
-        src="/hero-stephane-stage.webp"
-        alt=""
-        aria-hidden="true"
-        fill
-        priority
-        sizes="100vw"
-        className="hidden object-cover object-[78%_55%] md:block"
-      />
+      <div className="absolute bottom-0 right-[-10px] z-[1] md:right-5">
+        <Image
+          src="/hero-stephane-cutout.webp"
+          alt=""
+          aria-hidden="true"
+          width={1138}
+          height={1750}
+          priority
+          className="h-[400px] w-auto md:h-[680px]"
+        />
+      </div>
 
-      {/* Scrim — mobile: solid navy through the text zone (46% — same
-          safety margin as before), then a long gradual wash extending
-          almost all the way down, echoing the desktop version's "navy
-          bleeding across nearly the whole photo" look rather than a short,
-          hard-edged fade. */}
+      {/* Scrim — desktop only: fades from navy (left) across into the photo. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 md:hidden"
-        style={{
-          background:
-            'linear-gradient(180deg, #1C2541 0%, #1C2541 46%, rgba(28,37,65,0.82) 56%, rgba(28,37,65,0.6) 66%, rgba(28,37,65,0.36) 76%, rgba(28,37,65,0.16) 86%, rgba(28,37,65,0) 97%)',
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[22%] md:hidden"
-        style={{
-          background:
-            'linear-gradient(0deg, #1C2541 0%, rgba(28,37,65,0) 100%)',
-        }}
-      />
-      {/* Scrim — desktop: fades from navy (left) across into the photo. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden md:block"
+        className="pointer-events-none absolute inset-0 z-[1] hidden md:block"
         style={{
           background:
             'linear-gradient(90deg, #1C2541 0%, rgba(28,37,65,0.99) 30%, rgba(28,37,65,0.9) 42%, rgba(28,37,65,0.6) 52%, rgba(28,37,65,0.28) 62%, rgba(28,37,65,0.08) 72%, rgba(28,37,65,0) 84%)',
         }}
       />
 
-      <div className="relative z-10 flex flex-col px-gutter-mobile pb-10 pt-9 md:h-full md:max-w-[760px] md:justify-center md:px-gutter-desktop md:py-0">
+      <div className="relative z-10 flex flex-col px-gutter-mobile pb-10 pt-9 md:h-full md:max-w-[540px] md:justify-center md:px-gutter-desktop md:py-0">
         <p className="mb-3 font-sans text-eyebrow uppercase text-gold">
           {heroContent.eyebrow}
         </p>
@@ -83,10 +51,6 @@ export function Hero() {
           {heroContent.ctaLabel}
         </a>
       </div>
-
-      <p className="absolute bottom-2 right-3 z-10 font-sans text-[0.65rem] text-on-navy/55">
-        {heroContent.photoCredit}
-      </p>
     </section>
   )
 }

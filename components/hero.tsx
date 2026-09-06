@@ -66,7 +66,7 @@ export function Hero() {
           width={1138}
           height={1750}
           priority
-          className="h-[680px] w-auto"
+          className="h-[600px] w-auto"
         />
       </div>
     </section>

@@ -91,20 +91,14 @@ export const contactSection = {
 
 export const legalContactEmail = 'contact@misterstephonsax.fr'
 
-// Stephane hasn't supplied his legal identity (name/status, address, SIRET)
-// yet — this fact is shared by the mentions légales "éditeur" section and
-// the privacy policy's "responsable du traitement" section, which describe
-// the same entity. Never guess a value here (spec § Never) — each missing
-// fact stays independently visible as its own marker until Stephane answers.
-export const editeurNomStatutPlaceholder =
-  '[À COMPLÉTER : nom et statut de l’éditeur]'
-export const editeurAdressePlaceholder =
-  '[À COMPLÉTER : adresse postale de l’éditeur]'
-export const editeurSiretPlaceholder = '[À COMPLÉTER : numéro SIRET]'
-export const editeurTelephonePlaceholder =
-  '[À COMPLÉTER : numéro de téléphone]'
-export const directeurPublicationPlaceholder =
-  '[À COMPLÉTER : nom du directeur de la publication]'
+// Stephane's legal identity — shared by the mentions légales "éditeur"
+// section and the privacy policy's "responsable du traitement" section,
+// which describe the same entity.
+export const editeurNomStatut = 'Guery Stéphane — Auto-entrepreneur'
+export const editeurAdresse = '180 route de Cobrieux, 59242 Genech'
+export const editeurSiret = '982 059 156 00017'
+export const editeurTelephone = '07 60 73 57 33'
+export const directeurPublicationNom = 'Stéphane Guery'
 
 export const footerContent: {
   brand: string
@@ -126,15 +120,15 @@ export const legalNoticeContent = {
   heading: 'Mentions légales',
   editeur: {
     heading: 'Éditeur du site',
-    nomStatut: editeurNomStatutPlaceholder,
-    adresse: editeurAdressePlaceholder,
-    siret: editeurSiretPlaceholder,
-    telephone: editeurTelephonePlaceholder,
+    nomStatut: editeurNomStatut,
+    adresse: editeurAdresse,
+    siret: editeurSiret,
+    telephone: editeurTelephone,
     contact: legalContactEmail,
   },
   directeurPublication: {
     heading: 'Directeur de la publication',
-    nom: directeurPublicationPlaceholder,
+    nom: directeurPublicationNom,
   },
   hebergeur: {
     heading: 'Hébergeur',
@@ -157,7 +151,7 @@ export const privacyPolicyContent = {
     'Cette page décrit comment vos données personnelles sont traitées lorsque vous utilisez le formulaire de contact de ce site.',
   responsableTraitement: {
     heading: 'Responsable du traitement',
-    body: editeurNomStatutPlaceholder,
+    body: editeurNomStatut,
     contact: legalContactEmail,
   },
   donneesCollectees: {
